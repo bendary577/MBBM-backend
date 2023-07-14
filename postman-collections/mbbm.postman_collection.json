@@ -1,0 +1,807 @@
+{
+	"info": {
+		"_postman_id": "e23e59e5-e681-4e74-9edf-845eabc0986c",
+		"name": "mbbm",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10810238"
+	},
+	"item": [
+		{
+			"name": "test",
+			"item": [
+				{
+					"name": "test",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-TenantID",
+								"value": "test1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/test/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tiktok",
+			"item": [
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "authorize_tiktok",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/v1/tiktok/users/authorize",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"tiktok",
+										"users",
+										"authorize"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "business",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-TenantID",
+								"value": "test1",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json; charset=utf-8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"test\",\r\n    \"password\" : \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-TenantID",
+								"value": "test1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"test4\",\r\n    \"username\" : \"test4\",\r\n    \"email\" : \"test4@test4\",\r\n    \"password\" : \"test4\",\r\n    \"address\" : \"test4\",\r\n    \"phone\" : \"01099482906\",\r\n    \"domain\" : \"test4.com\",\r\n    \"userType\" : \"User\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/auth/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "save",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc2MDUxNjQyLCJpYXQiOjE2NzYwMzM2NDJ9.ch66CEZSDn5lR0zdXCCzqXgkuKvRWr2svyckxOKZ8dr29Og1TZxOFD5Tc0cP1C74J2PxVqPKTQ9Fbn8HEwVlFg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-TenantID",
+								"value": "test1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"test3\",\r\n    \"username\" : \"test3\",\r\n    \"email\" : \"test3@test\",\r\n    \"password\" : \"test3\",\r\n    \"address\" : \"test3\",\r\n    \"phone\" : \"test3\",\r\n    \"domain\" : \"test3.com\",\r\n    \"userType\" : \"User\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/users/save",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc3Mjc4MDM5LCJpYXQiOjE2NzcyNjAwMzl9.GfdyX59WS69GrC0FEsOV8x4DlYwTyYxtNRwDozC1YXK-I7IqgGlooQUEYs5B0C1RqnoGAGRw8f2GQPXky4c12A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-TenantID",
+								"value": "test1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"test3\",\r\n    \"username\" : \"test3\",\r\n    \"email\" : \"test3@test\",\r\n    \"password\" : \"test3\",\r\n    \"address\" : \"test3\",\r\n    \"phone\" : \"test3\",\r\n    \"domain\" : \"test3.com\",\r\n    \"userType\" : \"User\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/v1/users/1/info",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"1",
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "whatsapp",
+			"item": [
+				{
+					"name": "media",
+					"item": [
+						{
+							"name": "upload-media-to-whatsapp-api",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc3ODg3Mjc4LCJpYXQiOjE2Nzc4NjkyNzh9.pEVxQktdkIfcH38acTTSCRFmNkFnnE6F-LZ7cDNa_l16zbL6tgZ8DnqYPQRbR_LnV1MV3l7gISpvinkVfa5JZw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/v1/whatsapp/media/upload",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"whatsapp",
+										"media",
+										"upload"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "test-upload-media-to-whatsapp-api",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc3NjIxMDE3LCJpYXQiOjE2Nzc2MDMwMTd9.zg2FckoN__qYlWSajlFXocWFtJctbyfl2XPobY2N3awW2cCVSsVL2ZYPTAIElQ24SyF9s2SGqxfeBu_1J9bm3Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://graph.facebook.com/v16.0/15550139536/media",
+									"protocol": "https",
+									"host": [
+										"graph",
+										"facebook",
+										"com"
+									],
+									"path": [
+										"v16.0",
+										"15550139536",
+										"media"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "message-template",
+					"item": [
+						{
+							"name": "create-message-template",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc3NjIzOTU3LCJpYXQiOjE2Nzc2MDU5NTd9.e7FCdDgqPGYaySSqSXttLkunqKMlu8wIWpqhj3bWWAQBBjbaT1uPnRuD0OElcCY4g2z-bxwXRKBy75iBm3JMYA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/v1/whatsapp/message-templates/create-message-template",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"whatsapp",
+										"message-templates",
+										"create-message-template"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-message-templates",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc3ODk1NzA0LCJpYXQiOjE2Nzc4Nzc3MDR9.0BVZNN73V8TcwwRs7Ara03EUmScVl3uSYYFaoaBZ0Rg0dBPDnfP1_fNTSKuy5SijfLWyQ7X_MubwmVAKKfK-PA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/v1/whatsapp/message-templates/get-message-templates",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"whatsapp",
+										"message-templates",
+										"get-message-templates"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "test-create-message-template-api",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "https://graph.facebook.com/v16.0/104097825880168/message_templates?name=mbbm_test_message_2&language=en_US&category=UTILITY&components=[{type:BODY,text:\"hello mbbm !!\"}]&access_token=EAAFcedkmiWkBAAexMOtKbNCTQX6G11aNhDKm1S4yEsehsbCZCPkmnT2lRGIT04BnslZBDqCJI9fax73aEOKQZBZAblZC5n11oKNqG4R9QnFq7LVbcnoFZCZABzC4af17XmVPCp8FfL0NbEvTrxXaGP1WDhWrZBdPZAnZC5hRSg5SCZCpwjUVwO88EqhanjtOvm7ke9p8IZAZCDxbOBwZDZD\n",
+									"protocol": "https",
+									"host": [
+										"graph",
+										"facebook",
+										"com"
+									],
+									"path": [
+										"v16.0",
+										"104097825880168",
+										"message_templates"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "mbbm_test_message_2"
+										},
+										{
+											"key": "language",
+											"value": "en_US"
+										},
+										{
+											"key": "category",
+											"value": "UTILITY"
+										},
+										{
+											"key": "components",
+											"value": "[{type:BODY,text:\"hello mbbm !!\"}]"
+										},
+										{
+											"key": "access_token",
+											"value": "EAAFcedkmiWkBAAexMOtKbNCTQX6G11aNhDKm1S4yEsehsbCZCPkmnT2lRGIT04BnslZBDqCJI9fax73aEOKQZBZAblZC5n11oKNqG4R9QnFq7LVbcnoFZCZABzC4af17XmVPCp8FfL0NbEvTrxXaGP1WDhWrZBdPZAnZC5hRSg5SCZCpwjUVwO88EqhanjtOvm7ke9p8IZAZCDxbOBwZDZD\n"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "test-get-message-template-api",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://graph.facebook.com/v16.0/104097825880168/message_templates?limit=3&access_token=EAAFcedkmiWkBADrIh02IlqaMnTAWCsB6wuQutvmqV24rBjrjJvisNnZC02MBVvaVvmEVQPbOnIJjY3sZBulbZAboDi1inhXbLW0LtHOlnG7WLAZBFpI35Wlzsavp2aF7jcLf9GH2Srs3lFjG9fdLQ8Lvb9F1oZBiPvxkaH98tW61ZBla79vhuje5s3xK6fsOIHCeMAkJWECAZDZD",
+									"protocol": "https",
+									"host": [
+										"graph",
+										"facebook",
+										"com"
+									],
+									"path": [
+										"v16.0",
+										"104097825880168",
+										"message_templates"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "3"
+										},
+										{
+											"key": "access_token",
+											"value": "EAAFcedkmiWkBADrIh02IlqaMnTAWCsB6wuQutvmqV24rBjrjJvisNnZC02MBVvaVvmEVQPbOnIJjY3sZBulbZAboDi1inhXbLW0LtHOlnG7WLAZBFpI35Wlzsavp2aF7jcLf9GH2Srs3lFjG9fdLQ8Lvb9F1oZBiPvxkaH98tW61ZBla79vhuje5s3xK6fsOIHCeMAkJWECAZDZD"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "message",
+					"item": [
+						{
+							"name": "send-template-message",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc3NjIxMDE3LCJpYXQiOjE2Nzc2MDMwMTd9.zg2FckoN__qYlWSajlFXocWFtJctbyfl2XPobY2N3awW2cCVSsVL2ZYPTAIElQ24SyF9s2SGqxfeBu_1J9bm3Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/v1/whatsapp/messages/send-template-message",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"whatsapp",
+										"messages",
+										"send-template-message"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "send-text-message",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc3ODk1NzA0LCJpYXQiOjE2Nzc4Nzc3MDR9.0BVZNN73V8TcwwRs7Ara03EUmScVl3uSYYFaoaBZ0Rg0dBPDnfP1_fNTSKuy5SijfLWyQ7X_MubwmVAKKfK-PA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/v1/whatsapp/messages/send-text-message",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"whatsapp",
+										"messages",
+										"send-text-message"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "send-image-message",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc3ODk1NzA0LCJpYXQiOjE2Nzc4Nzc3MDR9.0BVZNN73V8TcwwRs7Ara03EUmScVl3uSYYFaoaBZ0Rg0dBPDnfP1_fNTSKuy5SijfLWyQ7X_MubwmVAKKfK-PA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/v1/whatsapp/messages/send-image-message",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"whatsapp",
+										"messages",
+										"send-image-message"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "test-whatsapp-messages-with-image-api",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "EAAFcedkmiWkBADrIh02IlqaMnTAWCsB6wuQutvmqV24rBjrjJvisNnZC02MBVvaVvmEVQPbOnIJjY3sZBulbZAboDi1inhXbLW0LtHOlnG7WLAZBFpI35Wlzsavp2aF7jcLf9GH2Srs3lFjG9fdLQ8Lvb9F1oZBiPvxkaH98tW61ZBla79vhuje5s3xK6fsOIHCeMAkJWECAZDZD",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"messaging_product\": \"whatsapp\",\r\n  \"recipient_type\": \"individual\",\r\n  \"to\": \"201099482906\",\r\n  \"type\": \"image\",\r\n  \"image\": { \r\n      \"link\" : \"https://imgur.com/a/wo6ZM5T\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://graph.facebook.com/v15.0/104530865835552/messages",
+									"protocol": "https",
+									"host": [
+										"graph",
+										"facebook",
+										"com"
+									],
+									"path": [
+										"v15.0",
+										"104530865835552",
+										"messages"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "test-whatsapp-messages-with-text-api",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "EAAFcedkmiWkBADrIh02IlqaMnTAWCsB6wuQutvmqV24rBjrjJvisNnZC02MBVvaVvmEVQPbOnIJjY3sZBulbZAboDi1inhXbLW0LtHOlnG7WLAZBFpI35Wlzsavp2aF7jcLf9GH2Srs3lFjG9fdLQ8Lvb9F1oZBiPvxkaH98tW61ZBla79vhuje5s3xK6fsOIHCeMAkJWECAZDZD",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test1",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"messaging_product\": \"whatsapp\",\r\n  \"recipient_type\": \"individual\",\r\n  \"to\": \"201099482906\",\r\n  \"type\": \"text\",\r\n  \"text\": { \r\n      \"preview_url\": false,\r\n      \"body\": \"MESSAGE_CONTENT\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://graph.facebook.com/v15.0/104530865835552/messages",
+									"protocol": "https",
+									"host": [
+										"graph",
+										"facebook",
+										"com"
+									],
+									"path": [
+										"v15.0",
+										"104530865835552",
+										"messages"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "phone-numbers",
+					"item": [
+						{
+							"name": "test-business-account-phones-api",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://graph.facebook.com/v16.0/104097825880168/phone_numbers?access_token=EAAFcedkmiWkBALd0YMkWc4TQFWY0ppGLc4kBxE8JXEi43F7oRR5T2UcUro2A1cZChafzsbAdchKQEwA4iSHTHjxUmmakrA8AahJZAYgtJDmWCvCu5qP942eo5gPQpfYt3IgrtHdDolLOroYABceeXwy0KMr2NfkW25I3VZCr4yGRFMUK2Acpwx0D6U8WDZAUaUQI3Uo24gZDZD",
+									"protocol": "https",
+									"host": [
+										"graph",
+										"facebook",
+										"com"
+									],
+									"path": [
+										"v16.0",
+										"104097825880168",
+										"phone_numbers"
+									],
+									"query": [
+										{
+											"key": "access_token",
+											"value": "EAAFcedkmiWkBALd0YMkWc4TQFWY0ppGLc4kBxE8JXEi43F7oRR5T2UcUro2A1cZChafzsbAdchKQEwA4iSHTHjxUmmakrA8AahJZAYgtJDmWCvCu5qP942eo5gPQpfYt3IgrtHdDolLOroYABceeXwy0KMr2NfkW25I3VZCr4yGRFMUK2Acpwx0D6U8WDZAUaUQI3Uo24gZDZD"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-bussiness-account-phones",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjc3ODg3Mjc4LCJpYXQiOjE2Nzc4NjkyNzh9.pEVxQktdkIfcH38acTTSCRFmNkFnnE6F-LZ7cDNa_l16zbL6tgZ8DnqYPQRbR_LnV1MV3l7gISpvinkVfa5JZw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "X-TenantID",
+										"value": "test",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8080/api/v1/whatsapp/phones/",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"whatsapp",
+										"phones",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
