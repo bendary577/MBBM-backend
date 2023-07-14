@@ -1,0 +1,130 @@
+Ads and media buying automation tool :
+--------------------------------------
+- for media buyers, dropshippers, affiliate marketeers 
+
+examples : 
+--------------------------------------------------------------------------------------------------------
+https://adflex.io/
+
+general infrastructure :
+--------------------------------------------------------------------------------------------------------
+- Saas web app
+- business page
+- blog
+
+String access_token = "EAAFcedkmiWkBAB0aE7sSeZCBst9zZB6KK2YXSjAytRSKFIdLoJLZBchqTO0hC2lncbz07W4pMFkqn11z38epkP3wgd7VpL7MqXzXjvdWNsEf1khKdQ6u5fbuQx5Qh1jUmhGTVdmHnziUlvhIYB0ZAVVelXlmfKUc5eYsgQDjk6M9cBwMUQ5gZCn53lsfBy1cZD";
+String ad_account_id = "3181178652099971";
+String app_secret = "88324177a4492c9fb113e0bf1590d944";
+String page_id = "103979978999618";
+String app_id = "383153380690281";
+App Token	= 383153380690281|FZSViNsNldpm3ZrzJD_C8S_4kjc 
+	
+todos :
+---------------------------------------------------------------------------------------------------------
+- automation tools discovering 
+- front end technology (server-browser rendering type)
+- multi tenant architecture
+- database technology
+- facebook marketing api, business manager api, tiktok api, shopify api, youcan api reading
+
+
+business functionalities :
+----------------------------------------------------------------------------------------------------------
+main :
+-------
+- facebook ads spy tool : get ads with all related info (performance, targeting, engagement, media) [adview]
+- create and manage (campaigns, target audience, adsets, ads)
+- manage facebook page (posts, stories, content)
+- manage facebook pixels and conversion 
+- manage (create, update, see info) youcan landing page
+- dashboard where account managers can make their work
+
+
+extra : 
+-------
+
+- market research (pages - ads, ecommerce shops)
+- search keywords, domains, urls 
+- pages (facebook, instagram, tiktok) automation
+- integration with shopify, youcan (manage ecommerce stores and landing pages)
+------------------------------------------------------------------------------------------------------------------
+- For what services are the customers supposed to pay?
+- Would all your customers share a common database and application hardware?
+- Do your customers need a different database but can share a similar architecture?
+- Are your customers seeking an isolated application and database in SaaS?
+- Do your customers need your cloud services?
+
+------------------------------------------------------------------------------------------------------------------
+
+Sandbox ad account ID : 3181178652099971
+Page ID : 103979978999618
+
+EAAFcedkmiWkBAB0aE7sSeZCBst9zZB6KK2YXSjAytRSKFIdLoJLZBchqTO0hC2lncbz07W4pMFkqn11z38epkP3wgd7VpL7MqXzXjvdWNsEf1khKdQ6u5fbuQx5Qh1jUmhGTVdmHnziUlvhIYB0ZAVVelXlmfKUc5eYsgQDjk6M9cBwMUQ5gZCn53lsfBy1cZD
+
+ads_management
+
+-------------------------------------------------------------------------------------------------------------------
+joud.store.perfumes@gmail.com
+joud.store.perfumesPassword@mb2022
+
+gmail
+instagram
+
+tiktok 
+joud.store.TikTok577
+
+name.com
+fastcommit 
+
+
+ali express
+kaldrop 
+ali tool extension
+exchangemarketplace
+oberlo
+textnow.com
+kanawat
+clemta
+sellvia
+siteguard
+
+----------------------------------------------------------------------
+
+taagerlymediabying
+taagerly577
+
+-----------------------------------------------------------------------
+
+{
+    "username" : "javainuse",
+    "password" : "password"
+}
+
+https://www.tiktok.com/auth/authorize/?client_key={awnzxvhflatqo81r}&scope=user.info.basic,video.list&response_type=code&redirect_uri={localhost:8080/api/v1/tiktok/users/authorize_redirect}&state=4288076083366549
+
+https://www.tiktok.com/auth/authorize/?client_key={awnzxvhflatqo81r}&scope=user.info.basic,video.list&response_type=code&redirect_uri={https://bendarydev.wordpress.com/}&state=86168917306362
+
+-------------------------------------------------------------------------
+architecture for mbbm :
+--------------------
+1 - use case digrams
+2 - class digrams
+3 - module diagrams
+
+apply to app 
+- diagrams
+- unit testing
+- logging / aop
+- whatsapp api / excel service 
+
+
+-----------------------------------------------------------------------------
+Lean Product Process :
+---------------------
+0. customer research
+1. Determine your target customers
+2. Identify underserved customer needs
+3. Define your value proposition
+4. Specify your minimum viable product (MVP) feature set
+5. Create your MVP prototype
+6. Test your MVP with customers
