@@ -1,6 +1,6 @@
 package com.mbbm.app.service;
 
-import com.mbbm.app.http.request.SignupRequest;
+import com.mbbm.app.http.request.SignupRequestDTO;
 import com.mbbm.app.http.response.messages.ResponseMessages;
 import com.mbbm.app.enums.ERole;
 import com.mbbm.app.model.base.Role;
@@ -24,9 +24,10 @@ public class SignupService {
     @Autowired
     private UserService userService;
 
-    public Set<Role> generateRolesListForNewUser(ERole userType){
+    public Set<Role> generateRolesListForNewUser(String userType){
         Set<Role> roles = new HashSet<>();
-        switch(userType){
+        ERole role = ERole.getRoleByName(userType);
+        switch(role){
             case ROLE_MODERATOR:
                 Role moderatorRole = roleService.findByName(ERole.ROLE_MODERATOR);
                 roles.add(moderatorRole);
@@ -46,7 +47,7 @@ public class SignupService {
         return roles;
     }
 
-    public User createNewUser(SignupRequest signupRequest){
+    public User createNewUser(SignupRequestDTO signupRequest){
         Set<Role> roles = this.generateRolesListForNewUser(signupRequest.getUserType());
         User user = new User();
         user.setName(signupRequest.getName());
@@ -56,14 +57,15 @@ public class SignupService {
         user.setAddress(signupRequest.getAddress());
         user.setPhone(signupRequest.getPhone());
         user.setRoles(roles);
-        //set user domain here
+        //TODO : set user domain here
         userService.save(user);
         return user;
     }
 
-    public JSONObject buildSignupResponse(){
+    public JSONObject buildSignupResponse(User user){
+        //TODO : decide which info should return after registration
         Map<String , Object> signupInfo = new HashMap<>();
-        signupInfo.put("", new ArrayList<String>());
+        signupInfo.put("username", user.getUsername());
 
         JSONObject signupResponse = new JSONObject();
         signupResponse.put("message", ResponseMessages.SUCCESSFUL_SIGNUP);

@@ -2,7 +2,7 @@ package com.mbbm.app.http.request;
 
 import java.io.Serializable;
 
-public class LoginRequest implements Serializable {
+public class LoginRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
 
@@ -10,9 +10,9 @@ public class LoginRequest implements Serializable {
     private String password;
 
     //need default constructor for JSON Parsing
-    public LoginRequest() {}
+    public LoginRequestDTO() {}
 
-    public LoginRequest(String username, String password) {
+    public LoginRequestDTO(String username, String password) {
         this.setUsername(username);
         this.setPassword(password);
     }

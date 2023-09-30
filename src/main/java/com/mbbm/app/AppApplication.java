@@ -9,10 +9,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableAsync
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-//@EnableAutoConfiguration
+//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 @EnableTransactionManagement
 @EntityScan(basePackages = {"com.mbbm.app.model.base"})
+//@EnableAutoConfiguration
 //@ComponentScan(basePackages = {"com.mbbm.app.model.base"})
 public class AppApplication {
 

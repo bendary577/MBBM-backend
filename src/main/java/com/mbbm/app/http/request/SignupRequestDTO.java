@@ -1,10 +1,9 @@
 package com.mbbm.app.http.request;
 
 import com.mbbm.app.enums.ERole;
-
 import java.io.Serializable;
 
-public class SignupRequest implements Serializable {
+public class SignupRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
 
@@ -15,10 +14,10 @@ public class SignupRequest implements Serializable {
     private String address;
     private String phone;
     private String domain;
-    private ERole userType;
+    private String userType;
 
     //need default constructor for JSON Parsing
-    public SignupRequest() {}
+    public SignupRequestDTO() {}
 
     public String getName() {
         return name;
@@ -76,11 +75,11 @@ public class SignupRequest implements Serializable {
         this.domain = domain;
     }
 
-    public ERole getUserType() {
+    public String getUserType() {
         return userType;
     }
 
-    public void setUserType(ERole userType) {
+    public void setUserType(String userType) {
         this.userType = userType;
     }
 }

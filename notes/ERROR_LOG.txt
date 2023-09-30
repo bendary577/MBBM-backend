@@ -1,0 +1,7 @@
+1 -ERR : Parameter 1 of method entityManagerFactory in com.mbbm.app.config.TenantConfig required a bean of type 'javax.sql.DataSource' that could not be found
+1 -SOL: 
+	//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class}) : COMMENT
+	@SpringBootApplication							: ADD
+
+2 -ERR : org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing:
+2 -SOL : add 'Content-Length' http header to postman request
