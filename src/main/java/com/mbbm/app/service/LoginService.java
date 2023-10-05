@@ -19,6 +19,7 @@ import java.util.Map;
 
 @Service
 public class LoginService {
+    
     @Autowired
     private AuthenticationManager authenticationManager;
 

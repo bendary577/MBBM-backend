@@ -1,4 +1,4 @@
-package com.mbbm.app.controller;
+package com.mbbm.app.controller.authentication;
 
 import com.google.common.base.Preconditions;
 import com.mbbm.app.events.event.UserRegisteredEvent;
@@ -79,7 +79,6 @@ public class AuthenticationController {
      * @param signupRequest
      * @return
      */
-
     @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes="application/json", produces = "application/json")
     public ResponseEntity<?> signup(@RequestBody SignupRequestDTO signupRequest){
         logger.info("Starting signup request for user = " + signupRequest.getUsername());
