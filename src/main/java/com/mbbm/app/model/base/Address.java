@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 
-
 /**
  * @author mohamed.bendary
  * the base address model definition in the system
@@ -19,6 +18,7 @@ import javax.validation.constraints.NotBlank;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Address {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
