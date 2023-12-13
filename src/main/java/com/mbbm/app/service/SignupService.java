@@ -50,12 +50,11 @@ public class SignupService {
     public User createNewUser(SignupRequestDTO signupRequest){
         Set<Role> roles = this.generateRolesListForNewUser(signupRequest.getUserType());
         User user = new User();
-        user.setName(signupRequest.getName());
+        user.setFirstName(signupRequest.getFirstName());
+        user.setLastName(signupRequest.getLastName());
         user.setUsername(signupRequest.getUsername());
         user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         user.setEmail(signupRequest.getEmail());
-        user.setAddress(signupRequest.getAddress());
-        user.setPhone(signupRequest.getPhone());
         user.setRoles(roles);
         //TODO : set user domain here
         userService.save(user);

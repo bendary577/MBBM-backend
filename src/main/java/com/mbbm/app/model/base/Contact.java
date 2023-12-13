@@ -33,13 +33,11 @@ public class Contact {
     @NotBlank(message = "value is mandatory")
     private String value;
 
-	/**
-	 * COUNTRY CODE FOR MOBILE PHONES (I.E. +20)
-	 */
+	/* COUNTRY CODE FOR MOBILE PHONES (I.E. +20) */
     @Column(name = "code")
     @NotBlank(message = "code is mandatory")
 	@Size(max = 3)
-    private String code;
+    private String countryCode;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "user_id", nullable = false)
@@ -73,11 +71,11 @@ public class Contact {
 	}
 
 	public String getCode() {
-		return code;
+		return countryCode;
 	}
 
 	public void setCode(String code) {
-		this.code = code;
+		this.countryCode = code;
 	}
 
 	public User getUser() {
