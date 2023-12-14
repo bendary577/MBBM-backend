@@ -22,9 +22,6 @@ public class Profile {
     @Column(name = "about")
     private String about;
 
-    @Column(name = "avatar_url")
-    private String avatar_url;
-
 	@Column(name = "isActivated")
 	private boolean isActivated;
 
@@ -38,6 +35,10 @@ public class Profile {
 	@JoinColumn(name = "user_id")
 	@MapsId
 	private User user;
+
+	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private Blob avatar;
 
 	/* user profile links i.e. social media accounts, personal websites, blogs ... etc. */
 	@OneToMany(cascade = CascadeType.ALL)
@@ -71,14 +72,6 @@ public class Profile {
 
 	public void setAbout(String about) {
 		this.about = about;
-	}
-
-	public String getAvatar_url() {
-		return avatar_url;
-	}
-
-	public void setAvatar_url(String avatar_url) {
-		this.avatar_url = avatar_url;
 	}
 
 	public boolean isActivated() {
@@ -127,5 +120,13 @@ public class Profile {
 
 	public void setFeatures(Set<Feature> features) {
 		this.features = features;
+	}
+
+	public Blob getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(Blob avatar) {
+		this.avatar = avatar;
 	}
 }

@@ -61,7 +61,8 @@ public class UserService {
         if(user == null){
             userInfoResponse.put("message", ResponseMessages.USER_NOT_AVAILABLE);
         }else{
-            userInfo.put("name", user.getName());
+            userInfo.put("firstName", user.getFirstName());
+            userInfo.put("lastName", user.getLastName());
             userInfo.put("username", user.getUsername());
             userInfo.put("email", user.getEmail());
             userInfoResponse.put("message", ResponseMessages.USER_INFO_RETURNED_SUCCESSFULLY);

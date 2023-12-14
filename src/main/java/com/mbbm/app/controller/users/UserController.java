@@ -1,4 +1,4 @@
-package com.mbbm.app.controller;
+package com.mbbm.app.controller.users;
 
 import com.mbbm.app.http.request.UserInfoUpdateRequestDTO;
 import com.mbbm.app.model.base.User;
