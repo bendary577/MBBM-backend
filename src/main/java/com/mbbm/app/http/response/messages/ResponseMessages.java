@@ -15,4 +15,10 @@ public class ResponseMessages {
     public static final String NO_EMAIL_PROVIDED = "Please provide an email to complete registration";
     public static final String EMAIL_EXISTS = "Email provided already exists, please choose a different email";
     public static final String SUCCESSFUL_SIGNUP = "You Have Successfully Registered in MBBM";
+
+    //---------------------- USER ------------------------------------
+
+    public static final String USER_NOT_AVAILABLE = "The required user is not available";
+    public static final String USER_INFO_RETURNED_SUCCESSFULLY = "user information returned successfully";
+
 }

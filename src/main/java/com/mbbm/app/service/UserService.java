@@ -1,13 +1,17 @@
 package com.mbbm.app.service;
 
+import com.mbbm.app.http.response.messages.ResponseMessages;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.repository.UserRepository;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -48,5 +52,23 @@ public class UserService {
 
     public void save(User user){
         userRepository.save(user);
+    }
+
+    public JSONObject buildUserInfoResponse(String userId) {
+        User user = getUserById(userId);
+        JSONObject userInfoResponse = new JSONObject();
+        Map<String , Object> userInfo = new HashMap<>();
+        if(user == null){
+            userInfoResponse.put("message", ResponseMessages.USER_NOT_AVAILABLE);
+        }else{
+            userInfo.put("firstName", user.getFirstName());
+            userInfo.put("lastName", user.getLastName());
+            userInfo.put("username", user.getUsername());
+            userInfo.put("email", user.getEmail());
+            userInfoResponse.put("message", ResponseMessages.USER_INFO_RETURNED_SUCCESSFULLY);
+
+        }
+        userInfoResponse.put("data", userInfo);
+        return userInfoResponse;
     }
 }

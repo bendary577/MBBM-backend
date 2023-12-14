@@ -1,13 +1,13 @@
 package com.mbbm.app.http.request;
 
-import com.mbbm.app.enums.ERole;
 import java.io.Serializable;
 
 public class SignupRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
 
-    private String name;
+    private String firstName;
+    private String lastName;
     private String username;
     private String email;
     private String password;
@@ -19,12 +19,20 @@ public class SignupRequestDTO implements Serializable {
     //need default constructor for JSON Parsing
     public SignupRequestDTO() {}
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {

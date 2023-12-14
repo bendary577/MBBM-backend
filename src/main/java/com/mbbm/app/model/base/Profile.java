@@ -1,10 +1,13 @@
 package com.mbbm.app.model.base;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
 
 /**
  * @author mohamed.bendary
- */
+ * */
 @Entity
 @Table(name = "profile")
 public class Profile {
@@ -13,25 +16,39 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+	@Column(name = "title")
+	private String title;
+
     @Column(name = "about")
     private String about;
 
-	@Column(name = "avatar_link")
-	private String avatar_url;
+	@Column(name = "isActivated")
+	private boolean isActivated;
 
-    @Column(name = "activated")
-    private boolean activated;
+	@Column(name = "isBlocked")
+	private boolean isBlocked;
 
-    @Column(name = "blocked")
-    private boolean blocked;
+	@Column(name = "timestamp")
+	private String timestamp;
 
-    @Column(name = "deleted")
-    private boolean deleted;
-
-	@OneToOne(mappedBy = "profile")
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	@MapsId
 	private User user;
 
-	public Profile() {}
+	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private Blob avatar;
+
+	/* user profile links i.e. social media accounts, personal websites, blogs ... etc. */
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Link> links;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "profile_feature",
+			joinColumns = @JoinColumn(name = "profile_id"),
+			inverseJoinColumns = @JoinColumn(name = "feature_id"))
+	private Set<Feature> features = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -39,6 +56,14 @@ public class Profile {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getAbout() {
@@ -49,36 +74,59 @@ public class Profile {
 		this.about = about;
 	}
 
-	public String getAvatar_url() {
-		return avatar_url;
-	}
-
-	public void setAvatar_url(String avatar_url) {
-		this.avatar_url = avatar_url;
-	}
-
 	public boolean isActivated() {
-		return activated;
+		return isActivated;
 	}
 
 	public void setActivated(boolean activated) {
-		this.activated = activated;
+		this.isActivated = activated;
 	}
 
 	public boolean isBlocked() {
-		return blocked;
+		return isBlocked;
 	}
 
 	public void setBlocked(boolean blocked) {
-		this.blocked = blocked;
+		this.isBlocked = blocked;
 	}
 
-	public boolean isDeleted() {
-		return deleted;
+	public String getTimestamp() {
+		return timestamp;
 	}
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Set<Link> getLinks() {
+		return links;
+	}
+
+	public void setLinks(Set<Link> links) {
+		this.links = links;
+	}
+
+	public Set<Feature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(Set<Feature> features) {
+		this.features = features;
+	}
+
+	public Blob getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(Blob avatar) {
+		this.avatar = avatar;
+	}
 }

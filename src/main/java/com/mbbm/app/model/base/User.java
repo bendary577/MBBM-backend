@@ -2,6 +2,7 @@ package com.mbbm.app.model.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.mbbm.app.enums.EGender;
 import com.mbbm.app.multitenant.TenantSupport;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,15 +45,21 @@ public class User implements Serializable, TenantSupport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    @NotBlank(message = "Name is mandatory")
+    @Column(name = "firstName")
+    @NotBlank(message = "First Name is mandatory")
 	@Size(max = 20)
-    private String name;
+    private String firstName;
 
+	@Column(name = "lastName")
+	@Size(max = 20)
+	private String lastName;
+
+	/* used for login, just like user email */
     @Column(name = "username")
     @NotBlank(message = "Username is mandatory")
     private String username;
 
+	/* official email for user login - different from contacts personal emails */
     @Column(name = "email")
     @NotBlank(message = "Username is mandatory")
 	@Size(max = 50)
@@ -64,20 +71,44 @@ public class User implements Serializable, TenantSupport {
 	@Size(max = 120)
     private String password;
 
-    @Column(name = "deleted")
-    private boolean deleted;
+	@Column(name = "birthdate")
+	private String birthdate;
 
-    @Column(name = "tenant_id")
-    private String tenantId;
+	@Column(name = "nationality")
+	private String nationality;
+
+	@Column(name = "gender")
+	private EGender gender;
+
+	@Column(name = "tenant_id")
+	private String tenantId;
+
+	@Column(name = "isCompany")
+	private boolean isCompany;
+
+	@Column(name = "isDeleted")
+	private boolean isDeleted;
+
+	@Column(name = "lastLoginDate")
+	private String lastLoginDate;
+
+	@Column(name = "lastFailedLoginDate")
+	private String lastFailedLoginDate;
+
+	@Column(name = "passwordUpdateDate")
+	private String passwordUpdateDate;
+
+	@Column(name = "timestamp")
+	private String timestamp;
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(	name = "user_roles",
+	@JoinTable(	name = "user_role",
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "profile_id", referencedColumnName = "id")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
 	private Profile profile;
 
 	public <E> User(String username, String password, ArrayList<E> roles) {}
@@ -93,12 +124,20 @@ public class User implements Serializable, TenantSupport {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getUsername() {
@@ -126,11 +165,11 @@ public class User implements Serializable, TenantSupport {
 	}
 
 	public boolean isDeleted() {
-		return deleted;
+		return isDeleted;
 	}
 
 	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+		this.isDeleted = deleted;
 	}
 
 	public static long getSerialversionuid() {
@@ -145,4 +184,79 @@ public class User implements Serializable, TenantSupport {
 		this.roles = roles;
 	}
 
+	public String getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(String birthdate) {
+		this.birthdate = birthdate;
+	}
+
+	public String getTenantId() {
+		return tenantId;
+	}
+
+	public String getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(String lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
+
+	public String getLastFailedLoginDate() {
+		return lastFailedLoginDate;
+	}
+
+	public void setLastFailedLoginDate(String lastFailedLoginDate) {
+		this.lastFailedLoginDate = lastFailedLoginDate;
+	}
+
+	public String getPasswordUpdateDate() {
+		return passwordUpdateDate;
+	}
+
+	public void setPasswordUpdateDate(String passwordUpdateDate) {
+		this.passwordUpdateDate = passwordUpdateDate;
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public String getNationality() {
+		return nationality;
+	}
+
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+
+	public EGender getGender() {
+		return gender;
+	}
+
+	public void setGender(EGender gender) {
+		this.gender = gender;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
+	}
+
+	public boolean isCompany() {
+		return isCompany;
+	}
+
+	public void setCompany(boolean company) {
+		isCompany = company;
+	}
 }
