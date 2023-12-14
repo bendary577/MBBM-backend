@@ -54,8 +54,6 @@ public class SignupService {
         user.setUsername(signupRequest.getUsername());
         user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         user.setEmail(signupRequest.getEmail());
-        user.setAddress(signupRequest.getAddress());
-        user.setPhone(signupRequest.getPhone());
         user.setRoles(roles);
         //TODO : set user domain here
         userService.save(user);

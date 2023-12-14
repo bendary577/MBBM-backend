@@ -64,22 +64,6 @@ public class User implements Serializable, TenantSupport {
 	@Size(max = 120)
     private String password;
 
-    @Column(name = "address")
-    @NotBlank(message = "address is mandatory")
-    private String address;
-
-    @Column(name = "phone")
-    @NotBlank(message = "phone is mandatory")
-//    @Min(1)
-//    @Max(10)
-    private String phone;
-
-    @Column(name = "activated")
-    private boolean activated;
-
-    @Column(name = "blocked")
-    private boolean blocked;
-
     @Column(name = "deleted")
     private boolean deleted;
 
@@ -91,6 +75,10 @@ public class User implements Serializable, TenantSupport {
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "profile_id", referencedColumnName = "id")
+	private Profile profile;
 
 	public <E> User(String username, String password, ArrayList<E> roles) {}
 
@@ -135,38 +123,6 @@ public class User implements Serializable, TenantSupport {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public boolean isActivated() {
-		return activated;
-	}
-
-	public void setActivated(boolean activated) {
-		this.activated = activated;
-	}
-
-	public boolean isBlocked() {
-		return blocked;
-	}
-
-	public void setBlocked(boolean blocked) {
-		this.blocked = blocked;
 	}
 
 	public boolean isDeleted() {

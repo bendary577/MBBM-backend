@@ -47,7 +47,6 @@ public class Contact {
 	@JsonIgnore
 	private User user;
 
-
 	public Long getId() {
 		return id;
 	}

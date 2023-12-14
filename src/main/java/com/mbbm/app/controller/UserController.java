@@ -41,10 +41,6 @@ public class UserController {
         user.setName("test1");
         user.setEmail("test@test");
         user.setPassword("test1");
-        user.setPhone("0104342346");
-        user.setAddress("test address");
-        user.setActivated(true);
-        user.setBlocked(false);
         user.setDeleted(false);
         userService.save(user);
         return new ResponseEntity<>(HttpStatus.OK);
