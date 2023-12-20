@@ -1,5 +1,7 @@
 package com.mbbm.app.model.base;
 
+import com.mbbm.app.enums.ERole;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +24,9 @@ public class Profile {
     @Column(name = "about")
     private String about;
 
+	@Column(name = "type")
+	private ERole type;
+
 	@Column(name = "isActivated")
 	private boolean isActivated;
 
@@ -33,12 +38,10 @@ public class Profile {
 
 	@OneToOne
 	@JoinColumn(name = "user_id")
-	@MapsId
 	private User user;
 
 	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
-	private Blob avatar;
+	private BlobEntity avatar;
 
 	/* user profile links i.e. social media accounts, personal websites, blogs ... etc. */
 	@OneToMany(cascade = CascadeType.ALL)
@@ -122,11 +125,19 @@ public class Profile {
 		this.features = features;
 	}
 
-	public Blob getAvatar() {
+	public ERole getType() {
+		return type;
+	}
+
+	public void setType(ERole type) {
+		this.type = type;
+	}
+
+	public BlobEntity getAvatar() {
 		return avatar;
 	}
 
-	public void setAvatar(Blob avatar) {
+	public void setAvatar(BlobEntity avatar) {
 		this.avatar = avatar;
 	}
 }

@@ -19,11 +19,11 @@ public class Feature {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "avatar_url")
+    @Column(name = "description")
     private String description;
 
-	@Column(name = "activated")
-	private boolean activated;
+	@Column(name = "isDisabled")
+	private boolean isDisabled;
 
 	public Long getId() {
 		return id;
@@ -57,11 +57,11 @@ public class Feature {
 		this.description = description;
 	}
 
-	public boolean isActivated() {
-		return activated;
+	public boolean isDisabled() {
+		return isDisabled;
 	}
 
-	public void setActivated(boolean activated) {
-		this.activated = activated;
+	public void setDisabled(boolean disabled) {
+		this.isDisabled = disabled;
 	}
 }

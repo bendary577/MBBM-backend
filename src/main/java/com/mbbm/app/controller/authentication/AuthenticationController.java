@@ -2,6 +2,7 @@ package com.mbbm.app.controller.authentication;
 
 import com.google.common.base.Preconditions;
 import com.mbbm.app.events.event.UserRegisteredEvent;
+import com.mbbm.app.events.publisher.UserRegisteredEventPublisher;
 import com.mbbm.app.http.response.messages.ResponseMessage;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.security.userDetails.UserDetailsImpl;
@@ -36,15 +37,15 @@ public class AuthenticationController {
 
     private final SignupService signupService;
 
-    private ApplicationEventPublisher applicationEventPublisher;
+    private UserRegisteredEventPublisher userRegisteredEventPublisher;
 
     public AuthenticationController(
             SignupService signupService,
             LoginService loginService,
-            ApplicationEventPublisher applicationEventPublisher){
+            UserRegisteredEventPublisher userRegisteredEventPublisher){
         this.signupService = signupService;
         this.loginService = loginService;
-        this.applicationEventPublisher = applicationEventPublisher;
+        this.userRegisteredEventPublisher = userRegisteredEventPublisher;
     }
 
 
@@ -121,8 +122,7 @@ public class AuthenticationController {
 
             logger.info("successful signup request for user = " + signupRequest.getUsername());
 
-            //TODO :: ADD ASYNCHRONOUS EVENT LISTENER (CHECK, FIX AND TEST)
-            this.applicationEventPublisher.publishEvent(new UserRegisteredEvent(this, newUser.getEmail()));
+            this.userRegisteredEventPublisher.publishUserRegisteredEvent(newUser.getEmail());
             return new ResponseEntity<>(signupResponse.toJSONString(), HttpStatus.OK);
 
         }catch(Exception exception){

@@ -5,7 +5,7 @@ import com.mbbm.app.enums.ERole;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role {
 
     @Id

@@ -9,8 +9,8 @@ import javax.persistence.*;
  * @author mohamed.bendary
  * */
 @Entity
-@Table(name = "blob")
-public class Blob {
+@Table(name = "blob_entity")
+public class BlobEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,6 @@ public class Blob {
 
 	@OneToOne
 	@JoinColumn(name = "profile_id")
-	@MapsId
 	private Profile profile;
 
 	public Long getId() {

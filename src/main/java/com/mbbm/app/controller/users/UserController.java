@@ -1,10 +1,14 @@
 package com.mbbm.app.controller.users;
 
+import com.mbbm.app.http.request.AddNewUserRequestDTO;
 import com.mbbm.app.http.request.UserInfoUpdateRequestDTO;
+import com.mbbm.app.http.response.messages.ResponseMessage;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.multitenant.TenantContext;
 import com.mbbm.app.service.UserService;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +40,14 @@ public class UserController {
         JSONObject userInfoResponse = userService.buildUserInfoResponse(userId);
         return new ResponseEntity<>(userInfoResponse.toJSONString(), HttpStatus.OK);
     }
+
     @PostMapping("/update")
     public ResponseEntity<?> update(@RequestBody UserInfoUpdateRequestDTO userInfoUpdateRequestDTO) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save() {
+    public ResponseEntity<?> save(@RequestBody AddNewUserRequestDTO addNewUserRequestDTO) {
         User user = new User();
         user.setTenantId(tenantContext.getCurrentTenant());
         user.setUsername("test1");

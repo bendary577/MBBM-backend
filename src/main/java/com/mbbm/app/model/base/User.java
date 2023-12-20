@@ -108,7 +108,6 @@ public class User implements Serializable, TenantSupport {
 	private Set<Role> roles = new HashSet<>();
 
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn
 	private Profile profile;
 
 	public <E> User(String username, String password, ArrayList<E> roles) {}

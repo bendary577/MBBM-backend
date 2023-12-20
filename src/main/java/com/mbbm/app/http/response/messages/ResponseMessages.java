@@ -17,8 +17,17 @@ public class ResponseMessages {
     public static final String SUCCESSFUL_SIGNUP = "You Have Successfully Registered in MBBM";
 
     //---------------------- USER ------------------------------------
-
     public static final String USER_NOT_AVAILABLE = "The required user is not available";
     public static final String USER_INFO_RETURNED_SUCCESSFULLY = "user information returned successfully";
+
+    //---------------------- PROFILE ------------------------------------
+    public static final String PROFILE_AVATAR_UPDATED_SUCCESSFULLY = "profile avatar was updated successfully";
+    public static final String PROFILE_AVATAR_UPDATING_FAILED = "profile avatar updating failed";
+
+    public static final String PROFILE_ACTIVATED_SUCCESSFULLY = "profile was activated successfully";
+    public static final String PROFILE_ACTIVATING_FAILED = "profile activating failed";
+
+    public static final String PROFILE_BLOCKED_SUCCESSFULLY = "profile was blocked successfully";
+    public static final String PROFILE_BLOCKING_FAILED = "profile blocking failed";
 
 }

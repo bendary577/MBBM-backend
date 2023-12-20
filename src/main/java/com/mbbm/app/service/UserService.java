@@ -1,18 +1,21 @@
 package com.mbbm.app.service;
 
+import com.mbbm.app.enums.EGender;
+import com.mbbm.app.http.request.SignupRequestDTO;
+import com.mbbm.app.http.response.messages.ResponseMessage;
 import com.mbbm.app.http.response.messages.ResponseMessages;
+import com.mbbm.app.model.base.Role;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.repository.UserRepository;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -22,6 +25,9 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     public List<User> getAllUsers() {
@@ -50,6 +56,22 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+    public User buildNewUserObject(SignupRequestDTO signupRequestDTO, Set<Role> roles){
+        User user = new User();
+        user.setFirstName(signupRequestDTO.getFirstName());
+        user.setLastName(signupRequestDTO.getLastName());
+        user.setUsername(signupRequestDTO.getUsername());
+        user.setEmail(signupRequestDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(signupRequestDTO.getPassword()));
+        user.setBirthdate(signupRequestDTO.getBirthDate());
+        user.setNationality(signupRequestDTO.getNationality());
+        user.setCompany(signupRequestDTO.isCompany());
+        user.setGender(EGender.valueOf(signupRequestDTO.getGender()));
+        user.setRoles(roles);
+        user.setTimestamp(new Date().toString());
+        save(user);
+        return user;
+    }
     public void save(User user){
         userRepository.save(user);
     }
@@ -71,4 +93,6 @@ public class UserService {
         userInfoResponse.put("data", userInfo);
         return userInfoResponse;
     }
+
+
 }

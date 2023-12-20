@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class YoucanAuthService {
 
     @Autowired
-    private YoucanConfigurations youcanConfigurations;
+    private YoucanSettings youcanConfigurations;
 
     private static String YOUCAN_URL = "";
 

@@ -6,6 +6,7 @@ import com.mbbm.app.security.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,6 +21,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static java.util.Collections.singletonList;
 
 @Configuration
 @EnableWebSecurity
@@ -86,12 +97,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().disable();
 
         // Enable CORS and disable CSRF
-        httpSecurity.cors().and().csrf().disable()
+        httpSecurity.cors().configurationSource(new CorsConfigurationSource() {
+                    @Override
+                    public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+                        CorsConfiguration config = new CorsConfiguration();
+                        config.setAllowedHeaders(Collections.singletonList("*"));
+                        config.setAllowedMethods(Collections.singletonList("*"));
+                        config.addAllowedOrigin("http://localhost:4200");
+                        config.setAllowCredentials(true);
+                        return config;
+                    }
+                }).and()
+                .csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/api/v1/test/**").permitAll()
                 .antMatchers("/api/v1/auth/**").permitAll()
-                .antMatchers("/api/v1/tiktok/users/authorize").permitAll()
+//                .antMatchers("/api/v1/tiktok/users/**").permitAll()
 //                .antMatchers("/user/**").permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated().and()
@@ -115,6 +138,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        source.registerCorsConfiguration("/**", config);
 //        return new CorsFilter((CorsConfigurationSource) source);
 //    }
+
+    CorsConfiguration  corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        List<String> allowOrigins = Arrays.asList("http://localhost:4200");
+        configuration.setAllowedOrigins(allowOrigins);
+        configuration.setAllowedMethods(singletonList("*"));
+        configuration.setAllowedHeaders(singletonList("*"));
+        //in case authentication is enabled this flag MUST be set, otherwise CORS requests will fail
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return configuration;
+    }
 
 
 }

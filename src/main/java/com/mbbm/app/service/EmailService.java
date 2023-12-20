@@ -13,7 +13,7 @@ import java.util.Properties;
 @Service
 public class EmailService {
 
-    public void sendRegistrationEmail(){
+    public void sendNewUserRegistrationEmail(){
         try
         {
             String smtpHostServer = "smtp.example.com";
