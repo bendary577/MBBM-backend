@@ -7,12 +7,11 @@ import com.mbbm.app.model.base.User;
 import com.mbbm.app.multitenant.TenantContext;
 import com.mbbm.app.service.UserService;
 import org.json.simple.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @CrossOrigin
@@ -27,9 +26,9 @@ public class UserController {
     TenantContext tenantContext;
 
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers(){
-        List<User> users = userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    public ResponseEntity<?> getAllUsers(@RequestParam int pageNumber, @RequestParam int pageSize){
+        ResponseMessage responseMessage = userService.getAllUsers(pageNumber, pageSize);
+        return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
 
     /**
