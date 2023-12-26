@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
@@ -32,9 +33,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Transactional //TODO : Search about this annotation
-    public ResponseMessage getAllUsers(int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+//    @Transactional //TODO : Search about this annotation
+    public Page<User> getAllUsers(int pageNumber, int pageSize, String sortBy) {
+        Pageable pageable = PageRequest.of(pageNumber-1, pageSize, Sort.by(sortBy).descending());
         Page<User> pagedUsers = userRepository.findAll(pageable);
         ResponseMessage responseMessages = new PageableResponse(pagedUsers.getTotalPages(),
                 pagedUsers.getTotalElements(),
@@ -44,7 +45,7 @@ public class UserService {
                 pagedUsers.isFirst(),
                 "users returned successfully",
                 pagedUsers.getContent().toString());
-        return responseMessages;
+        return pagedUsers;
     }
 
     public User getAllUsersByEmail(String email) {

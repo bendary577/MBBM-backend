@@ -8,6 +8,8 @@ import com.mbbm.app.multitenant.TenantContext;
 import com.mbbm.app.service.UserService;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +27,13 @@ public class UserController {
     @Autowired
     TenantContext tenantContext;
 
-    @GetMapping("/all")
-    public ResponseEntity<?> getAllUsers(@RequestParam int pageNumber, @RequestParam int pageSize){
-        ResponseMessage responseMessage = userService.getAllUsers(pageNumber, pageSize);
-        return new ResponseEntity<>(responseMessage, HttpStatus.OK);
+    @GetMapping("/") //TODO : HANDLE OPTIONAL PARAMS
+    public ResponseEntity<Page<User>> getAllUsers(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "id") String sortBy){
+        Page<User> pagedUsers = userService.getAllUsers(pageNumber, pageSize, sortBy);
+        return new ResponseEntity<>(pagedUsers, new HttpHeaders(), HttpStatus.OK);
     }
 
     /**

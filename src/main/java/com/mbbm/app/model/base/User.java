@@ -104,9 +104,6 @@ public class User implements Serializable, TenantSupport {
 	@Column(name = "timestamp")
 	private String timestamp;
 
-	@Column(name = "creationDate")
-	private String creationDate;
-
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_role",
 			joinColumns = @JoinColumn(name = "user_id"),
@@ -263,14 +260,6 @@ public class User implements Serializable, TenantSupport {
 
 	public void setCompany(boolean company) {
 		isCompany = company;
-	}
-
-	public String getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(String creationDate) {
-		this.creationDate = creationDate;
 	}
 
 }
