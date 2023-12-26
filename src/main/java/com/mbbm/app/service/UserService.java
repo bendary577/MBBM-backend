@@ -2,6 +2,7 @@ package com.mbbm.app.service;
 
 import com.mbbm.app.enums.EGender;
 import com.mbbm.app.http.request.SignupRequestDTO;
+import com.mbbm.app.http.response.PageableResponse;
 import com.mbbm.app.http.response.messages.ResponseMessage;
 import com.mbbm.app.http.response.messages.ResponseMessages;
 import com.mbbm.app.model.base.Role;
@@ -9,7 +10,9 @@ import com.mbbm.app.model.base.User;
 import com.mbbm.app.repository.UserRepository;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
@@ -29,9 +32,19 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Transactional
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    @Transactional //TODO : Search about this annotation
+    public ResponseMessage getAllUsers(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<User> pagedUsers = userRepository.findAll(pageable);
+        ResponseMessage responseMessages = new PageableResponse(pagedUsers.getTotalPages(),
+                pagedUsers.getTotalElements(),
+                pagedUsers.getNumberOfElements(),
+                pagedUsers.getSize(),
+                pagedUsers.isLast(),
+                pagedUsers.isFirst(),
+                "users returned successfully",
+                pagedUsers.getContent().toString());
+        return responseMessages;
     }
 
     public User getAllUsersByEmail(String email) {
@@ -56,7 +69,7 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public User buildNewUserObject(SignupRequestDTO signupRequestDTO, Set<Role> roles){
+    public User buildNewUserObject(@org.jetbrains.annotations.NotNull SignupRequestDTO signupRequestDTO, Set<Role> roles){
         User user = new User();
         user.setFirstName(signupRequestDTO.getFirstName());
         user.setLastName(signupRequestDTO.getLastName());

@@ -8,12 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -100,6 +103,9 @@ public class User implements Serializable, TenantSupport {
 
 	@Column(name = "timestamp")
 	private String timestamp;
+
+	@Column(name = "creationDate")
+	private String creationDate;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_role",
@@ -257,5 +263,13 @@ public class User implements Serializable, TenantSupport {
 
 	public void setCompany(boolean company) {
 		isCompany = company;
+	}
+
+	public String getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
 	}
 }
