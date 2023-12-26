@@ -258,4 +258,5 @@ public class User implements Serializable, TenantSupport {
 	public void setCompany(boolean company) {
 		isCompany = company;
 	}
+
 }

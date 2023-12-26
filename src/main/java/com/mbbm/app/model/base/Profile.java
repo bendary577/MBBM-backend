@@ -27,10 +27,6 @@ public class Profile {
 	@Column(name = "type")
 	private ERole type;
 
-	@Column(name = "profileId")
-	private String profileId;
-
-
 	@Column(name = "isActivated")
 	private boolean isActivated;
 
@@ -145,11 +141,4 @@ public class Profile {
 		this.avatar = avatar;
 	}
 
-	public String getProfileId() {
-		return profileId;
-	}
-
-	public void setProfileId(String profileId) {
-		this.profileId = profileId;
-	}
 }
