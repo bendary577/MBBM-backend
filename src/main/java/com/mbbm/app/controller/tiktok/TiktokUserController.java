@@ -4,13 +4,11 @@ import com.mbbm.app.tiktok.users.TiktokAuthResponse;
 import com.mbbm.app.tiktok.users.TiktokRedirectResponse;
 import com.mbbm.app.tiktok.users.TiktokUsersCredentials;
 import com.squareup.okhttp.*;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
-import java.io.IOException;
+
 
 @CrossOrigin
 @RestController
