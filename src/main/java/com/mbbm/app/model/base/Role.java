@@ -5,7 +5,10 @@ import com.mbbm.app.enums.ERole;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
+@Table(name = "role",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = "name")
+})
 public class Role {
 
     @Id

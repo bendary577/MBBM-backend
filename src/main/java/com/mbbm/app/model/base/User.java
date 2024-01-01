@@ -1,11 +1,8 @@
 package com.mbbm.app.model.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mbbm.app.enums.EGender;
 import com.mbbm.app.multitenant.TenantSupport;
-import org.hibernate.annotations.*;
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
