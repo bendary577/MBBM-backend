@@ -1,24 +1,25 @@
 package com.mbbm.app.service;
 
 import com.mbbm.app.enums.EGender;
-import com.mbbm.app.http.request.SignupRequestDTO;
+import com.mbbm.app.http.request.NewUserRequestDTO;
 import com.mbbm.app.http.response.PageableResponse;
-import com.mbbm.app.http.response.messages.ResponseMessage;
-import com.mbbm.app.http.response.messages.ResponseMessages;
+import com.mbbm.app.http.response.constants.ResponseMessages;
+import com.mbbm.app.mapper.UserMapper;
 import com.mbbm.app.model.base.Role;
 import com.mbbm.app.model.base.User;
+import com.mbbm.app.record.UserDTO;
 import com.mbbm.app.repository.UserRepository;
 import org.json.simple.JSONObject;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Service
@@ -28,24 +29,32 @@ public class UserService {
     public EntityManager entityManager;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    @Transactional //TODO : Search about this annotation
-    public Page<User> getAllUsers(int pageNumber, int pageSize, String sortBy) {
-        Pageable pageable = PageRequest.of(pageNumber-1, pageSize, Sort.by(sortBy).descending());
-        Page<User> pagedUsers = userRepository.findAll(pageable);
-        ResponseMessage responseMessages = new PageableResponse(pagedUsers.getTotalPages(),
+    private UserMapper userMapper;
+
+    public UserService(){
+        userMapper = Mappers.getMapper(UserMapper.class);
+    }
+
+    // TODO : Search about this annotation
+    // @Transactional
+    public PageableResponse<UserDTO> getAllUsers(int pageNumber, int pageSize, String sortBy) {
+        PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize, Sort.by(sortBy).descending());
+        Page<User> pagedUsers = userRepository.findAll(pageRequest);
+        List<UserDTO> users = userMapper.entityToDTO(pagedUsers.getContent());
+        return new PageableResponse<UserDTO>(pagedUsers.getTotalPages(),
                 pagedUsers.getTotalElements(),
                 pagedUsers.getNumberOfElements(),
                 pagedUsers.getSize(),
                 pagedUsers.isLast(),
                 pagedUsers.isFirst(),
                 "users returned successfully",
-                pagedUsers.getContent().toString());
-        return pagedUsers;
+                users
+                );
     }
 
     public User getAllUsersByEmail(String email) {
@@ -70,17 +79,17 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public User buildNewUserObject(@org.jetbrains.annotations.NotNull SignupRequestDTO signupRequestDTO, Set<Role> roles){
+    public User buildNewUserObject(@NotNull NewUserRequestDTO newUserRequestDTO, Set<Role> roles){
         User user = new User();
-        user.setFirstName(signupRequestDTO.getFirstName());
-        user.setLastName(signupRequestDTO.getLastName());
-        user.setUsername(signupRequestDTO.getUsername());
-        user.setEmail(signupRequestDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(signupRequestDTO.getPassword()));
-        user.setBirthdate(signupRequestDTO.getBirthDate());
-        user.setNationality(signupRequestDTO.getNationality());
-        user.setCompany(signupRequestDTO.isCompany());
-        user.setGender(EGender.valueOf(signupRequestDTO.getGender()));
+        user.setFirstName(newUserRequestDTO.getFirstName());
+        user.setLastName(newUserRequestDTO.getLastName());
+        user.setUsername(newUserRequestDTO.getUsername());
+        user.setEmail(newUserRequestDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(newUserRequestDTO.getPassword()));
+        user.setBirthdate(newUserRequestDTO.getBirthDate());
+        user.setNationality(newUserRequestDTO.getNationality());
+        user.setCompany(newUserRequestDTO.isCompany());
+        user.setGender(EGender.valueOf(newUserRequestDTO.getGender()));
         user.setRoles(roles);
         user.setTimestamp(new Date().toString());
         save(user);

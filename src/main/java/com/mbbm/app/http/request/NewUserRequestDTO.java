@@ -2,7 +2,7 @@ package com.mbbm.app.http.request;
 
 import java.io.Serializable;
 
-public class SignupRequestDTO implements Serializable {
+public class NewUserRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
 
@@ -29,7 +29,7 @@ public class SignupRequestDTO implements Serializable {
     private String countryCode;
 
     //need default constructor for JSON Parsing
-    public SignupRequestDTO() {}
+    public NewUserRequestDTO() {}
 
     public String getFirstName() {
         return firstName;

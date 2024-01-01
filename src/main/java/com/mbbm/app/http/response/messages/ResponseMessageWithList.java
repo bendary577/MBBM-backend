@@ -1,14 +1,14 @@
 package com.mbbm.app.http.response.messages;
 
-import java.io.Serializable;
+import java.util.List;
 
-public class ResponseMessage implements Serializable {
+public class ResponseMessageWithList<T>{
 
     protected String message = "";
-    protected String data = "";
+    protected List<T> data;
 
-    public ResponseMessage(){}
-    public ResponseMessage(String message, String data){
+    public ResponseMessageWithList(){}
+    public ResponseMessageWithList(String message, List<T> data){
         this.data = data;
         this.message = message;
     }
@@ -20,11 +20,11 @@ public class ResponseMessage implements Serializable {
         this.message = message;
     }
 
-    public String getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(List<T> data) {
         this.data = data;
     }
 }

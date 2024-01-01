@@ -1,11 +1,9 @@
 package com.mbbm.app.service;
 
-import com.mbbm.app.http.request.SignupRequestDTO;
+import com.mbbm.app.http.request.NewUserRequestDTO;
 import com.mbbm.app.model.base.Address;
-import com.mbbm.app.model.base.Profile;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.repository.AddressRepository;
-import com.mbbm.app.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +20,11 @@ public class AddressService {
         return address.orElse(null);
     }
 
-    public Address buildNewAddressObject(SignupRequestDTO signupRequestDTO, User user) {
+    public Address buildNewAddressObject(NewUserRequestDTO newUserRequestDTO, User user) {
         Address address = new Address();
-        address.setCountry(signupRequestDTO.getCountry());
-        address.setState(signupRequestDTO.getState());
-        address.setCity(signupRequestDTO.getCity());
+        address.setCountry(newUserRequestDTO.getCountry());
+        address.setState(newUserRequestDTO.getState());
+        address.setCity(newUserRequestDTO.getCity());
         address.setUser(user);
         addressRepository.save(address);
         return address;

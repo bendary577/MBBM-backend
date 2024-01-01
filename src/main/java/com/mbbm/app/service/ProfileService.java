@@ -1,10 +1,10 @@
 package com.mbbm.app.service;
 
-import com.mbbm.app.controller.users.ProfileController;
+import com.mbbm.app.controller.profile.ProfileController;
 import com.mbbm.app.enums.EBlobType;
 import com.mbbm.app.enums.ERole;
 import com.mbbm.app.http.request.ProfileAvatarUpdateRequestDTO;
-import com.mbbm.app.http.request.SignupRequestDTO;
+import com.mbbm.app.http.request.NewUserRequestDTO;
 import com.mbbm.app.model.base.BlobEntity;
 import com.mbbm.app.model.base.Profile;
 import com.mbbm.app.model.base.User;
@@ -35,9 +35,9 @@ public class ProfileService {
         return profile.orElse(null);
     }
 
-    public Profile buildNewProfileObject(SignupRequestDTO signupRequestDTO, User user) {
+    public Profile buildNewProfileObject(NewUserRequestDTO newUserRequestDTO, User user) {
         Profile profile = new Profile();
-        profile.setType(ERole.valueOf(signupRequestDTO.getUserType()));
+        profile.setType(ERole.valueOf(newUserRequestDTO.getUserType()));
         profile.setTimestamp(new Date().toString());
         profile.setUser(user);
         profileRepository.save(profile);

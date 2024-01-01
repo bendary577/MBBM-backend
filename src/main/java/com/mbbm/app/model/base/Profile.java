@@ -1,8 +1,10 @@
 package com.mbbm.app.model.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mbbm.app.enums.ERole;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +14,7 @@ import java.util.Set;
  * */
 @Entity
 @Table(name = "profile")
-public class Profile {
+public class Profile implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,17 +38,21 @@ public class Profile {
 	@Column(name = "timestamp")
 	private String timestamp;
 
-	@OneToOne
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private BlobEntity avatar;
 
 	/* user profile links i.e. social media accounts, personal websites, blogs ... etc. */
-	@OneToMany(cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Link> links;
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "profile_feature",
 			joinColumns = @JoinColumn(name = "profile_id"),

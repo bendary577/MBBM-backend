@@ -1,6 +1,6 @@
 package com.mbbm.app.service;
 
-import com.mbbm.app.http.response.messages.ResponseMessages;
+import com.mbbm.app.http.response.constants.ResponseMessages;
 import com.mbbm.app.security.jwt.JwtTokenUtil;
 import com.mbbm.app.security.userDetails.UserDetailsImpl;
 import com.mbbm.app.security.userDetails.UserDetailsServiceImpl;

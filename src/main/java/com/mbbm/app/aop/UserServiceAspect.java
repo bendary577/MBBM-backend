@@ -12,10 +12,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserServiceAspect {
 
+    //TODO:REVISE MULTITENANT SOLUTION
     @Before("execution(* com.mbbm.app.service.UserService.*(..))&& target(userService)")
     public void aroundExecution(JoinPoint joinPoint, UserService userService) throws Throwable {
-        org.hibernate.Filter filter = userService.entityManager.unwrap(Session.class).enableFilter("tenantFilter");
-        filter.setParameter("tenantId", TenantContext.getCurrentTenant());
-        filter.validate();
+//        org.hibernate.Filter filter = userService.entityManager.unwrap(Session.class).enableFilter("tenantFilter");
+//        filter.setParameter("tenantId", TenantContext.getCurrentTenant());
+//        filter.validate();
     }
 }

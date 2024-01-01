@@ -1,24 +1,25 @@
 package com.mbbm.app.controller.authentication;
 
 import com.google.common.base.Preconditions;
-import com.mbbm.app.events.event.UserRegisteredEvent;
 import com.mbbm.app.events.publisher.UserRegisteredEventPublisher;
 import com.mbbm.app.http.response.messages.ResponseMessage;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.security.userDetails.UserDetailsImpl;
 import com.mbbm.app.http.request.LoginRequestDTO;
-import com.mbbm.app.http.request.SignupRequestDTO;
-import com.mbbm.app.http.response.messages.ResponseMessages;
+import com.mbbm.app.http.request.NewUserRequestDTO;
+import com.mbbm.app.http.response.constants.ResponseMessages;
 import com.mbbm.app.service.LoginService;
 import com.mbbm.app.service.SignupService;
+import com.mbbm.app.util.validation.NewUserValidator;
 import com.mbbm.app.util.validation.PasswordValidator;
 import com.mbbm.app.util.validation.ValidationMessages;
+import com.mbbm.app.util.validation.ValidationResult;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,10 +55,11 @@ public class AuthenticationController {
      * @param authenticationRequest
      * @return
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes="application/json", produces = "application/json")
+    @RequestMapping(value = "/login", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO authenticationRequest) {
         Preconditions.checkNotNull(authenticationRequest);   //TODO :: check this line of code
-        logger.info("Starting login request for user = " + authenticationRequest.getUsername());
+        logger.info("AuthenticationController:login:Starting login request for user = " + authenticationRequest.getUsername());
+        ResponseMessage responseMessage = new ResponseMessage();
         try {
             Authentication authentication = loginService.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -66,68 +68,63 @@ public class AuthenticationController {
 
             JSONObject loginResponse = loginService.buildLoginResponse(userDetailsObject, userDetails);
 
-            logger.info("successful login request for user = " + authenticationRequest.getUsername());
+            logger.info("AuthenticationController:login:successful login request for user = " + authenticationRequest.getUsername());
             return new ResponseEntity<>(loginResponse.toJSONString(), HttpStatus.OK);
-        }catch(Exception exception){
-            logger.error("failed login request for user = " + authenticationRequest.getUsername() + " " + exception.getMessage());
+        }catch(BadCredentialsException badCredentialsException){
+            logger.error("AuthenticationController:login:invalid credentials for user = " + authenticationRequest.getUsername() + " " + badCredentialsException.getMessage());
+            responseMessage.setMessage(badCredentialsException.getCause().getMessage());
+            responseMessage.setData("");
+            return new ResponseEntity<>(responseMessage, HttpStatus.UNAUTHORIZED);
+        } catch(Exception exception){
+            logger.error("AuthenticationController:login:failed login request for user = " + authenticationRequest.getUsername() + " " + exception.getMessage());
+            responseMessage.setMessage(exception.getCause().getMessage());
+            responseMessage.setData("");
             return new ResponseEntity<>(ResponseMessages.UNKNOWN_ERROR, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
 
     /**
      *
-     * @param signupRequest
+     * @param newUserRequestDTO
      * @return
      */
     @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes="application/json", produces = "application/json")
-    public ResponseEntity<?> signup(@RequestBody SignupRequestDTO signupRequest){
-        logger.info("Starting signup request for user = " + signupRequest.getUsername());
+    public ResponseEntity<?> signup(@RequestBody NewUserRequestDTO newUserRequestDTO){
+        logger.info("Starting signup request for user = " + newUserRequestDTO.getUsername());
 
         ResponseMessage responseMessage = new ResponseMessage();
         boolean isFailedRequest = false;
         try {
 
-            if(signupRequest.getUsername().equals("")){
-                responseMessage.setMessage(ResponseMessages.NO_USERNAME_PROVIDED);
-                isFailedRequest = true;
-            }
-
-            if(signupRequest.getEmail().equals("")){
-                responseMessage.setMessage(ResponseMessages.NO_EMAIL_PROVIDED);
-                isFailedRequest = true;
-            }
-
-            if(signupService.checkUsernameAlreadyExists(signupRequest.getUsername())) {
-                responseMessage.setMessage(ResponseMessages.USERNAME_EXISTS);
-                isFailedRequest = true;
-            }
-
-            if(signupService.checkEmailAlreadyExists(signupRequest.getEmail())){
-                responseMessage.setMessage(ResponseMessages.EMAIL_EXISTS);
-                isFailedRequest = true;
-
-            }
+            //validate basic user information
+            NewUserValidator newUserValidator = new NewUserValidator();
+            ValidationResult validationResult = newUserValidator.validate(newUserRequestDTO);
+            responseMessage.setMessage(validationResult.getMessage());
+            isFailedRequest = validationResult.isFailedRequest();
 
             if(isFailedRequest){
                 return new ResponseEntity<>(responseMessage, HttpStatus.UNPROCESSABLE_ENTITY);
             }
 
-            String validationMessage = PasswordValidator.validatePassword(signupRequest.getPassword());
-            if(!validationMessage.equals(ValidationMessages.VALID_PASSWORD)){
-                return new ResponseEntity<>(validationMessage, HttpStatus.UNPROCESSABLE_ENTITY);
+            //validate user password
+            validationResult = PasswordValidator.validatePassword(newUserRequestDTO.getPassword());
+            if(!validationResult.isFailedRequest()){
+                return new ResponseEntity<>(validationResult.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
             }
 
-            User newUser = signupService.createNewUser(signupRequest);
+            //create user object and save in db
+            User newUser = signupService.createNewUser(newUserRequestDTO);
             JSONObject signupResponse = signupService.buildSignupResponse(newUser);
 
-            logger.info("successful signup request for user = " + signupRequest.getUsername());
+            logger.info("successful signup request for user = " + newUserRequestDTO.getUsername());
 
+            //publish registration event to send email
             this.userRegisteredEventPublisher.publishUserRegisteredEvent(newUser.getEmail());
             return new ResponseEntity<>(signupResponse.toJSONString(), HttpStatus.OK);
 
         }catch(Exception exception){
             exception.printStackTrace();
-            logger.error("failed signup request for user = " + signupRequest.getUsername() + " " + exception.getMessage());
+            logger.error("failed signup request for user = " + newUserRequestDTO.getUsername() + " " + exception.getMessage());
             return new ResponseEntity<>(ResponseMessages.UNKNOWN_ERROR, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }

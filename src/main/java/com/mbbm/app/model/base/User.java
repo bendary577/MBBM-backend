@@ -1,22 +1,17 @@
 package com.mbbm.app.model.base;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mbbm.app.enums.EGender;
 import com.mbbm.app.multitenant.TenantSupport;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.*;
-
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,25 +19,18 @@ import java.util.Set;
 /**
  * @author mohamed.bendary
  * the base user model definition in the system
- * "@FilterDef", "@Filter" allows injecting a tenant discriminator clause to every SQL query generated for this entity.
  */
+//TODO:REVISE MULTITENANT SOLUTION
+//"@FilterDef", "@Filter" allows injecting a tenant discriminator clause to every SQL query generated for this entity.
+//@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = "string")})
+//@Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
 @Entity
 @Table(name = "user",
 		uniqueConstraints = {
 				@UniqueConstraint(columnNames = "username"),
 				@UniqueConstraint(columnNames = "email")
 		})
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@FilterDef(name = "tenantFilter", parameters = {@ParamDef(name = "tenantId", type = "string")})
-@Filter(name = "tenantFilter", condition = "tenant_id = :tenantId")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 public class User implements Serializable, TenantSupport {
-
-    private static final long serialVersionUID = -4551953276601557391L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +52,7 @@ public class User implements Serializable, TenantSupport {
 
 	/* official email for user login - different from contacts personal emails */
     @Column(name = "email")
-    @NotBlank(message = "Username is mandatory")
+    @NotBlank(message = "email is mandatory")
 	@Size(max = 50)
     @Email
     private String email;
@@ -101,19 +89,26 @@ public class User implements Serializable, TenantSupport {
 	@Column(name = "passwordUpdateDate")
 	private String passwordUpdateDate;
 
-	@Column(name = "timestamp")
+	@Column(name = "updateTimestamp")
 	private String timestamp;
 
+	@Column(name = "creationDate")
+	private String creationDate;
+
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_role",
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Profile profile;
 
 	public <E> User(String username, String password, ArrayList<E> roles) {}
+
+	public User(){}
 
 	@Override
     public void setTenantId(String tenantId) {this.tenantId = tenantId; }
@@ -172,10 +167,6 @@ public class User implements Serializable, TenantSupport {
 
 	public void setDeleted(boolean deleted) {
 		this.isDeleted = deleted;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	public Set<Role> getRoles() {
@@ -262,4 +253,11 @@ public class User implements Serializable, TenantSupport {
 		isCompany = company;
 	}
 
+	public String getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+	}
 }

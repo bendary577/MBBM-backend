@@ -1,7 +1,6 @@
 package com.mbbm.app.controller.youcan;
 
 import com.mbbm.app.controller.authentication.AuthenticationController;
-import com.mbbm.app.http.request.SignupRequestDTO;
 import com.mbbm.app.youcan.YoucanAuthService;
 import com.mbbm.app.youcan.YoucanLoginRequestDTO;
 import org.slf4j.Logger;

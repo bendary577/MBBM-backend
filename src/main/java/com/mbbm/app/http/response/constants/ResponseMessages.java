@@ -1,4 +1,4 @@
-package com.mbbm.app.http.response.messages;
+package com.mbbm.app.http.response.constants;
 
 public class ResponseMessages {
 
@@ -8,6 +8,8 @@ public class ResponseMessages {
 
     //---------------------- LOGIN ------------------------------------
     public static final String SUCCESSFUL_LOGIN = "Logged In Successfully";
+    public static final String BAD_Credentials = "Username or password is wrong, please enter them again";
+
 
     //---------------------- SIGNUP ------------------------------------
     public static final String NO_USERNAME_PROVIDED = "Please provide a username to complete registration";

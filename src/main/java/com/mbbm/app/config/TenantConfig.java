@@ -24,55 +24,55 @@ import java.util.Map;
 @Configuration
 public class TenantConfig {
 
-    @Autowired
-    private JpaProperties jpaProperties;
-
-    @Bean
-    public EmptyInterceptor hibernateInterceptor() {
-
-        return new EmptyInterceptor() {
-
-            @Override
-            public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-                if (entity instanceof TenantSupport) {
-                    ((TenantSupport) entity).setTenantId(TenantContext.getCurrentTenant());
-                }
-            }
-
-
-            @Override
-            public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) {
-                if (entity instanceof TenantSupport) {
-                    ((TenantSupport) entity).setTenantId(TenantContext.getCurrentTenant());
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-                if (entity instanceof TenantSupport) {
-                    ((TenantSupport) entity).setTenantId(TenantContext.getCurrentTenant());
-                }
-                return false;
-            }
-        };
-    }
-
-    @Bean
-    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
-        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), new HashMap<>(), null);
-    }
-
-    @Bean
-    public TenantContext tenantContext() {
-        return new TenantContext();
-    }
-
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder entityManagerFactoryBuilder, DataSource dataSource, JpaProperties properties) {
-        Map<String, Object> jpaPropertiesMap = new HashMap<>(jpaProperties.getProperties());
-        jpaPropertiesMap.put("hibernate.ejb.interceptor", hibernateInterceptor());
-        return entityManagerFactoryBuilder.dataSource(dataSource).packages("com.mbbm.app").properties(jpaPropertiesMap).build();
-    }
+//    @Autowired
+//    private JpaProperties jpaProperties;
+//
+//    @Bean
+//    public EmptyInterceptor hibernateInterceptor() {
+//
+//        return new EmptyInterceptor() {
+//
+//            @Override
+//            public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+//                if (entity instanceof TenantSupport) {
+//                    ((TenantSupport) entity).setTenantId(TenantContext.getCurrentTenant());
+//                }
+//            }
+//
+//
+//            @Override
+//            public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) {
+//                if (entity instanceof TenantSupport) {
+//                    ((TenantSupport) entity).setTenantId(TenantContext.getCurrentTenant());
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
+//                if (entity instanceof TenantSupport) {
+//                    ((TenantSupport) entity).setTenantId(TenantContext.getCurrentTenant());
+//                }
+//                return false;
+//            }
+//        };
+//    }
+//
+//    @Bean
+//    public EntityManagerFactoryBuilder entityManagerFactoryBuilder() {
+//        return new EntityManagerFactoryBuilder(new HibernateJpaVendorAdapter(), new HashMap<>(), null);
+//    }
+//
+//    @Bean
+//    public TenantContext tenantContext() {
+//        return new TenantContext();
+//    }
+//
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder entityManagerFactoryBuilder, DataSource dataSource, JpaProperties properties) {
+//        Map<String, Object> jpaPropertiesMap = new HashMap<>(jpaProperties.getProperties());
+//        jpaPropertiesMap.put("hibernate.ejb.interceptor", hibernateInterceptor());
+//        return entityManagerFactoryBuilder.dataSource(dataSource).packages("com.mbbm.app").properties(jpaPropertiesMap).build();
+//    }
 
 }

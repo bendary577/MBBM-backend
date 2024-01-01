@@ -1,12 +1,13 @@
 package com.mbbm.app.service;
 
-import com.mbbm.app.http.request.SignupRequestDTO;
-import com.mbbm.app.http.response.messages.ResponseMessages;
+import com.mbbm.app.http.request.NewUserRequestDTO;
+import com.mbbm.app.http.response.constants.ResponseMessages;
 import com.mbbm.app.model.base.Role;
 import com.mbbm.app.model.base.User;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -27,12 +28,13 @@ public class SignupService {
     @Autowired
     private ProfileService profileService;
 
-    public User createNewUser(SignupRequestDTO signupRequestDTO){
-        Set<Role> roles = roleService.generateRolesListForNewUser(signupRequestDTO.getUserType());
-        User user = userService.buildNewUserObject(signupRequestDTO, roles);
-        addressService.buildNewAddressObject(signupRequestDTO, user);
-        contactService.buildNewContactObject(signupRequestDTO, user);
-        profileService.buildNewProfileObject(signupRequestDTO, user);
+    @Transactional
+    public User createNewUser(NewUserRequestDTO newUserRequestDTO){
+        Set<Role> roles = roleService.generateRolesListForNewUser(newUserRequestDTO.getUserType());
+        User user = userService.buildNewUserObject(newUserRequestDTO, roles);
+        addressService.buildNewAddressObject(newUserRequestDTO, user);
+        contactService.buildNewContactObject(newUserRequestDTO, user);
+        profileService.buildNewProfileObject(newUserRequestDTO, user);
         return user;
     }
 

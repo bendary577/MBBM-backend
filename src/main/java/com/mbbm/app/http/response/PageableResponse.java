@@ -1,10 +1,12 @@
 package com.mbbm.app.http.response;
 
-import com.mbbm.app.http.response.messages.ResponseMessage;
+import com.mbbm.app.http.response.messages.ResponseMessageWithList;
+
 import java.io.Serializable;
+import java.util.List;
 
 
-public class PageableResponse extends ResponseMessage implements Serializable {
+public class PageableResponse <T> extends ResponseMessageWithList implements Serializable {
 
     private int totalPages;
     private long totalElements;
@@ -20,7 +22,7 @@ public class PageableResponse extends ResponseMessage implements Serializable {
                             boolean isLastPage,
                             boolean isFirstPage,
                             String message,
-                            String data){
+                            List<T> data){
         super(message, data);
         this.totalPages = totalPages;
         this.totalElements = totalElements;
