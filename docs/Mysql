@@ -1,0 +1,5 @@
+\sql
+\connect root@localhost
+USE mbbm;
+show tables;
+desc table_name;

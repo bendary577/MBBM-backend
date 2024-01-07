@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class ResponseMessage implements Serializable {
 
     protected String message = "";
-    protected String data = "";
+    protected Object data = "";
 
     public ResponseMessage(){}
     public ResponseMessage(String message, String data){
@@ -20,11 +20,11 @@ public class ResponseMessage implements Serializable {
         this.message = message;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
     }
 }

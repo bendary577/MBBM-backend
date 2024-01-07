@@ -97,7 +97,7 @@ public class AuthenticationController {
         try {
 
             //validate basic user information
-            NewUserValidator newUserValidator = new NewUserValidator();
+            NewUserValidator newUserValidator = new NewUserValidator(this.signupService);
             ValidationResult validationResult = newUserValidator.validate(newUserRequestDTO);
             responseMessage.setMessage(validationResult.getMessage());
             isFailedRequest = validationResult.isFailedRequest();
@@ -108,7 +108,7 @@ public class AuthenticationController {
 
             //validate user password
             validationResult = PasswordValidator.validatePassword(newUserRequestDTO.getPassword());
-            if(!validationResult.isFailedRequest()){
+            if(validationResult.isFailedRequest()){
                 return new ResponseEntity<>(validationResult.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
             }
 

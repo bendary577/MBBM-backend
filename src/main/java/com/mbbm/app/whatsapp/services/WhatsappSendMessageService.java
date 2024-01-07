@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.mbbm.app.enums.EWhatsappMessageType;
 import com.mbbm.app.whatsapp.messages.*;
 import com.mbbm.app.whatsapp.credentials.WhatsappCredentials;
-import com.squareup.okhttp.*;
+import okhttp3.*;
 import org.springframework.stereotype.Service;
 
 @Service

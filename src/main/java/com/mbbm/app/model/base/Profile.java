@@ -2,6 +2,7 @@ package com.mbbm.app.model.base;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mbbm.app.enums.ERole;
+import com.mbbm.app.model.youcan.YoucanIntegration;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -58,6 +59,10 @@ public class Profile implements Serializable {
 			joinColumns = @JoinColumn(name = "profile_id"),
 			inverseJoinColumns = @JoinColumn(name = "feature_id"))
 	private Set<Feature> features = new HashSet<>();
+
+	@JsonIgnore
+	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private YoucanIntegration youcanIntegration;
 
 	public Long getId() {
 		return id;
@@ -147,4 +152,12 @@ public class Profile implements Serializable {
 		this.avatar = avatar;
 	}
 
+
+	public YoucanIntegration getYoucanIntegration() {
+		return youcanIntegration;
+	}
+
+	public void setYoucanIntegration(YoucanIntegration youcanIntegration) {
+		this.youcanIntegration = youcanIntegration;
+	}
 }

@@ -6,12 +6,11 @@ import com.google.gson.GsonBuilder;
 import com.mbbm.app.whatsapp.credentials.WhatsappCredentials;
 import com.mbbm.app.whatsapp.phones.BusinessAccountPhonesResponse;
 import com.mbbm.app.whatsapp.phones.PhoneResponseObject;
-import com.squareup.okhttp.*;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.net.URL;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

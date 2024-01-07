@@ -1,4 +1,4 @@
-package com.mbbm.app.youcan;
+package com.mbbm.app.youcan.dto.integration;
 
 public class YoucanLoginRequestDTO {
 

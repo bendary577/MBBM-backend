@@ -82,7 +82,7 @@ public class UserController {
         try {
 
             //validate basic user information
-            NewUserValidator newUserValidator = new NewUserValidator();
+            NewUserValidator newUserValidator = new NewUserValidator(this.signupService);
             ValidationResult validationResult = newUserValidator.validate(newUserRequestDTO);
             responseMessage.setMessage(validationResult.getMessage());
             isFailedRequest = validationResult.isFailedRequest();

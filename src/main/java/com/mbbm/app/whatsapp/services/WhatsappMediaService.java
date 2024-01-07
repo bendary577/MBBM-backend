@@ -1,14 +1,11 @@
 package com.mbbm.app.whatsapp.services;
 
 import com.mbbm.app.whatsapp.credentials.WhatsappCredentials;
-import com.squareup.okhttp.*;
-import org.asynchttpclient.request.body.multipart.MultipartBody;
+import okhttp3.*;
 import org.springframework.stereotype.Service;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class WhatsappMediaService {
@@ -28,8 +25,8 @@ public class WhatsappMediaService {
             //media file properties
             final MediaType MEDIA_TYPE = MediaType.parse("image/jpg");
 
-            RequestBody requestBody = new MultipartBuilder()
-                    .type(MultipartBuilder.FORM)
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
                     .addFormDataPart("file", file.getName(), RequestBody.create(MEDIA_TYPE, file))
                     .addFormDataPart("type", MEDIA_TYPE.toString())
                     .addFormDataPart("messaging_product", "whatsapp")

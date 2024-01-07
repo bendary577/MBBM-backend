@@ -7,8 +7,7 @@ import com.mbbm.app.whatsapp.credentials.WhatsappCredentials;
 import com.mbbm.app.whatsapp.messageTemplates.GetMessageTemplatesResponse;
 import com.mbbm.app.whatsapp.messageTemplates.MessageTemplatesResponse;
 import com.mbbm.app.whatsapp.messageTemplates.MessageTextObject;
-import com.mbbm.app.whatsapp.phones.BusinessAccountPhonesResponse;
-import com.squareup.okhttp.*;
+import okhttp3.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

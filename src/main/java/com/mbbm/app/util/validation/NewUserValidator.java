@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class NewUserValidator{
 
-    @Autowired
     private SignupService signupService;
+
+    public NewUserValidator (SignupService signupService) {
+        this.signupService = signupService;
+    }
 
     public ValidationResult validate(NewUserRequestDTO newUserRequestDTO) {
 

@@ -1,14 +1,17 @@
 package com.mbbm.app.controller.youcan;
 
-import com.mbbm.app.controller.authentication.AuthenticationController;
-import com.mbbm.app.youcan.YoucanAuthService;
-import com.mbbm.app.youcan.YoucanLoginRequestDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mbbm.app.http.response.messages.ResponseMessage;
+import com.mbbm.app.youcan.dto.YoucanProductUpdateRequestDTO;
+import com.mbbm.app.youcan.service.YoucanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -16,13 +19,24 @@ import org.springframework.web.bind.annotation.*;
 public class YoucanController {
 
     @Autowired
-    YoucanAuthService youcanAuthService;
+    private YoucanService youcanService;
 
-    Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+    @GetMapping("/{profileId}/getProducts")
+    public ResponseEntity<ResponseMessage> getProducts(@PathVariable String profileId) {
+        ResponseMessage response = youcanService.getProducts(profileId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody YoucanLoginRequestDTO youcanLoginRequestDTO) {
-        String response = youcanAuthService.login(youcanLoginRequestDTO);
+    @RequestMapping(value = "/{profileId}/updateProduct/{productId}", method = RequestMethod.POST, consumes="application/json")
+    public ResponseEntity<ResponseMessage> updateProduct(@PathVariable String profileId,
+                                                         @PathVariable String productId,
+                                                         @RequestBody String youcanProductUpdateRequestJson) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        HashMap<String, String> map
+                = objectMapper.readValue(youcanProductUpdateRequestJson, HashMap.class);
+        YoucanProductUpdateRequestDTO youcanProductUpdateRequestDTO = new YoucanProductUpdateRequestDTO();
+        youcanProductUpdateRequestDTO.setUpdatedValuesMap(map);
+        ResponseMessage response = youcanService.updateProduct(profileId, productId, youcanProductUpdateRequestDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
