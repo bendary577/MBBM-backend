@@ -4,22 +4,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mbbm.app.http.response.messages.ResponseMessage;
 import com.mbbm.app.youcan.dto.YoucanProductUpdateRequestDTO;
-import com.mbbm.app.youcan.service.YoucanService;
+import com.mbbm.app.youcan.service.YoucanProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/api/v1/youcan")
-public class YoucanController {
+public class YoucanProductController {
 
     @Autowired
-    private YoucanService youcanService;
+    private YoucanProductService youcanService;
 
     @GetMapping("/{profileId}/getProducts")
     public ResponseEntity<ResponseMessage> getProducts(@PathVariable String profileId) {
@@ -32,10 +31,10 @@ public class YoucanController {
                                                          @PathVariable String productId,
                                                          @RequestBody String youcanProductUpdateRequestJson) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        HashMap<String, String> map
+        HashMap<String, Object> map
                 = objectMapper.readValue(youcanProductUpdateRequestJson, HashMap.class);
         YoucanProductUpdateRequestDTO youcanProductUpdateRequestDTO = new YoucanProductUpdateRequestDTO();
-        youcanProductUpdateRequestDTO.setUpdatedValuesMap(map);
+        youcanProductUpdateRequestDTO.setUpdatedData(map);
         ResponseMessage response = youcanService.updateProduct(profileId, productId, youcanProductUpdateRequestDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

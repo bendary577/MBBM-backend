@@ -34,6 +34,9 @@ public class YoucanIntegration implements Serializable {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
+    @OneToOne(mappedBy = "integration", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private YoucanConfiguration youcanConfiguration;
+
 
     public YoucanIntegration(){}
 
@@ -75,5 +78,13 @@ public class YoucanIntegration implements Serializable {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public YoucanConfiguration getYoucanConfiguration() {
+        return youcanConfiguration;
+    }
+
+    public void setYoucanConfiguration(YoucanConfiguration youcanConfiguration) {
+        this.youcanConfiguration = youcanConfiguration;
     }
 }

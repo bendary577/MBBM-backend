@@ -11,19 +11,19 @@ import com.mbbm.app.service.ProfileService;
 import com.mbbm.app.util.compression.CompressionUtility;
 import com.mbbm.app.youcan.YoucanSettings;
 import com.mbbm.app.youcan.dto.YoucanProductUpdateRequestDTO;
+import com.mbbm.app.youcan.dto.products.YoucanProductDTO;
 import com.mbbm.app.youcan.dto.products.YoucanProductsResponseDTO;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Map;
 
 @Service
-public class YoucanService {
+public class YoucanProductService {
 
     @Autowired
     private YoucanSettings youcanConfigurations;
@@ -42,7 +42,7 @@ public class YoucanService {
 
     private Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
-    public YoucanService(){}
+    public YoucanProductService(){}
 
     public ResponseMessage getProducts(String profileId){
         Response response = null;
@@ -93,15 +93,15 @@ public class YoucanService {
         String youcanToken = youcanIntegration.getToken();
         //------------------------------------------
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-        for (Map.Entry<String, String> entry : youcanProductUpdateRequestDTO.getUpdatedValuesMap().entrySet()) {
+        for (Map.Entry<String, Object> entry : youcanProductUpdateRequestDTO.getUpdatedData().entrySet()) {
             String updatedAttributeKey = entry.getKey();
-            String updatedAttributeValue = entry.getValue();
-            builder.addFormDataPart(updatedAttributeKey, updatedAttributeValue);
+            Object updatedAttributeValue = entry.getValue();
+            builder.addFormDataPart(updatedAttributeKey, updatedAttributeValue.toString());
         }
         MultipartBody multipartBody = builder.build();
 
         Request request = new Request.Builder()
-                .url(youcanConfigurations.YOUCAN_BASE_API_URL + "/auth/login")
+                .url(youcanConfigurations.YOUCAN_BASE_API_URL + "/products/update/"+productId)
                 .post(multipartBody)
                 .addHeader("Authorization", "Bearer "+youcanToken)
                 .addHeader("Accept", "application/json")
@@ -110,13 +110,15 @@ public class YoucanService {
         try {
             response = client.newCall(request).execute();
             responseMessage = new ResponseMessage();
+            String decodedResponseBody;
             if (response.isSuccessful()) {
                 Gson gson = new Gson();
-                String decodedResponseBody = compressionUtility.decode(response.body().bytes());
-                YoucanProductsResponseDTO youcanProductsResponseDTO = gson.fromJson(decodedResponseBody, YoucanProductsResponseDTO.class);
-                responseMessage.setData(youcanProductsResponseDTO);
+                decodedResponseBody = compressionUtility.decode(response.body().bytes());
+                YoucanProductDTO youcanProductDTO = gson.fromJson(decodedResponseBody, YoucanProductDTO.class);
+                responseMessage.setData(youcanProductDTO);
                 responseMessage.setMessage("youcan store products returned successfully");
             } else {
+                decodedResponseBody = compressionUtility.decode(response.body().bytes());
                 responseMessage.setData("");
                 responseMessage.setMessage("failed to get youcan store products");
             }
