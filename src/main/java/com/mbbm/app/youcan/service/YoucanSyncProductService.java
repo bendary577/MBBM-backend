@@ -11,10 +11,7 @@ import com.mbbm.app.util.compression.CompressionUtility;
 import com.mbbm.app.youcan.YoucanSettings;
 import com.mbbm.app.youcan.dto.products.YoucanProductDTO;
 import com.mbbm.app.youcan.dto.products.YoucanProductsResponseDTO;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,8 +113,6 @@ public class YoucanSyncProductService {
 
     public void updateAllProducts(String token, YoucanConfiguration youcanConfiguration, List<YoucanProductDTO> productDTOList) {
 
-        OkHttpClient client = new OkHttpClient();
-
         try {
 
             for (YoucanProductDTO youcanProductDTO : productDTOList) {
@@ -154,11 +149,26 @@ public class YoucanSyncProductService {
                         .addHeader("Accept", "application/json")
                         .build();
 
-                //TODO : refactor code to process request body
-                client.newCall(request).execute();
+                OkHttpClient client = new OkHttpClient();
+                Call call = client.newCall(request);
+                call.enqueue(new Callback() {
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (response.isSuccessful()) {
+                            System.out.println("Response Successfull");
+                        } else {
+                            System.out.println("Response Error");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+                });
 
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

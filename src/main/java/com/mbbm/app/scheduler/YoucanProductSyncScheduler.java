@@ -4,6 +4,8 @@ import com.mbbm.app.model.youcan.YoucanConfiguration;
 import com.mbbm.app.model.youcan.YoucanIntegration;
 import com.mbbm.app.repository.YoucanIntegrationRepository;
 import com.mbbm.app.youcan.service.YoucanSyncProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
@@ -14,19 +16,22 @@ import java.util.List;
 @Component
 public class YoucanProductSyncScheduler {
 
+    @Autowired
     private YoucanIntegrationRepository youcanIntegrationRepository;
+    @Autowired
     private YoucanSyncProductService youcanSyncProductService;
 
-    @Scheduled(fixedRate = 5000) // Run every 5 seconds
+    @Async("asyncTaskExecutor")
+//    @Scheduled(fixedRate = 5000) // Run every 5 seconds
     public void scheduledTask() {
         List<YoucanIntegration> youcanIntegrationRepositoryList = youcanIntegrationRepository.findAll();
         for(YoucanIntegration youcanIntegration : youcanIntegrationRepositoryList){
             YoucanConfiguration youcanConfiguration = youcanIntegration.getYoucanConfiguration();
-            if(youcanConfiguration.isSyncProducts()){
+            if(youcanConfiguration != null && youcanConfiguration.isSyncProducts()){
                 Timestamp lastSyncTime = youcanConfiguration.getLastSyncTime();
                 Instant lastSyncTimeInstant;
                 if(lastSyncTime != null){
-                    lastSyncTimeInstant  = Instant.parse(lastSyncTime.toString());
+                    lastSyncTimeInstant = Instant.parse(lastSyncTime.toString());
                 }else{
                     lastSyncTimeInstant = Instant.now();
                 }

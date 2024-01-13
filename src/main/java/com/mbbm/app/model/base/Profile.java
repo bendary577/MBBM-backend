@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 
 /**
@@ -26,6 +27,12 @@ public class Profile implements Serializable {
 
     @Column(name = "about")
     private String about;
+
+	/***
+	 * used for external integration
+	 */
+	@Column(name = "identifier")
+	private UUID identifier;
 
 	@Column(name = "type")
 	private ERole type;
@@ -159,5 +166,13 @@ public class Profile implements Serializable {
 
 	public void setYoucanIntegration(YoucanIntegration youcanIntegration) {
 		this.youcanIntegration = youcanIntegration;
+	}
+
+	public UUID getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(UUID identifier) {
+		this.identifier = identifier;
 	}
 }

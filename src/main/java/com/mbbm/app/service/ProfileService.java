@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProfileService {
@@ -39,6 +40,7 @@ public class ProfileService {
         Profile profile = new Profile();
         profile.setType(ERole.valueOf(newUserRequestDTO.getUserType()));
         profile.setTimestamp(new Date().toString());
+        profile.setIdentifier(UUID.randomUUID());
         profile.setUser(user);
         profileRepository.save(profile);
         return profile;

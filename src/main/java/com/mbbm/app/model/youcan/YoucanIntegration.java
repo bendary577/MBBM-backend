@@ -23,7 +23,7 @@ public class YoucanIntegration implements Serializable {
 	@Column(name = "token", columnDefinition = "longtext")
 	private String token;
 
-    @Column(name = "expiredAt")
+    @Column(name = "expired_at")
     private String expiredAt;
 
     @JsonIgnore
