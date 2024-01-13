@@ -22,6 +22,10 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Map;
 
+/***
+ * @author mohamed.bendary
+ * service responsible for product processing in youcan product api
+ */
 @Service
 public class YoucanProductService {
 
@@ -44,8 +48,9 @@ public class YoucanProductService {
 
     public YoucanProductService(){}
 
+    //TODO:ADD PAGINATION INFORMATION
     public ResponseMessage getProducts(String profileId){
-        Response response = null;
+
         ResponseMessage responseMessage = null;
         OkHttpClient client = new OkHttpClient();
 
@@ -63,7 +68,7 @@ public class YoucanProductService {
                 .build();
 
         try {
-            response = client.newCall(request).execute();
+            Response response = client.newCall(request).execute();
             responseMessage = new ResponseMessage();
             if (response.isSuccessful()) {
                 Gson gson = new Gson();
@@ -83,7 +88,7 @@ public class YoucanProductService {
 
     public ResponseMessage updateProduct(String profileId, String productId, @NotNull YoucanProductUpdateRequestDTO youcanProductUpdateRequestDTO) {
         //--------REFACTORING----------------------
-        Response response = null;
+        Response response;
         ResponseMessage responseMessage = null;
         OkHttpClient client = new OkHttpClient();
 
@@ -127,4 +132,5 @@ public class YoucanProductService {
         }
         return responseMessage;
     }
+
 }

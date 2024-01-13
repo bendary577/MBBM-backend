@@ -1,5 +1,6 @@
 package com.mbbm.app.model.youcan;
 
+import com.mbbm.app.enums.ESyncStatus;
 import com.mbbm.app.enums.EYoucanPricingStrategy;
 import com.mbbm.app.enums.EYoucanSyncType;
 import javax.persistence.*;
@@ -28,6 +29,9 @@ public class YoucanConfiguration implements Serializable {
     @Column(name = "last_sync_time", columnDefinition = "TIMESTAMP")
     private Timestamp lastSyncTime;
 
+    @Column(name = "last_sync_status")
+    private ESyncStatus lastSyncStatus;
+
     @Column(name = "sync_type")
     private EYoucanSyncType syncType;
 
@@ -40,15 +44,23 @@ public class YoucanConfiguration implements Serializable {
     @Column(name = "pricing_strategy")
     private EYoucanPricingStrategy pricingStrategy;
 
+    /***
+     * fixed rate of price increase for all products (fixed amount)
+     * E.I. product with cost price = 200, pricing rate = 5, updated price will be 205
+     */
     @Column(name = "general_pricing_rate")
     private int generalPricingRate;
 
+    /***
+     * fixed rate of price increase per category (fixed amount)
+     * E.I. product with cost price = 200, pricing rate = 5, updated price will be 205
+     */
     @Column(name = "category_pricing_rate")
     private int categoryPricingRate;
 
     /***
-     * fixed rate of price increase in percent per product (out of cost price)
-     * E.I. product with cost price = 100, pricing rate = 5, updated price will be 105
+     * rate of price increase in percentage per product (out of cost price)
+     * E.I. product with cost price = 200, pricing rate = 5, updated price will be 210
      */
     @Column(name = "product_pricing_rate")
     private int productPricingRate;
@@ -157,4 +169,11 @@ public class YoucanConfiguration implements Serializable {
         this.lastSyncTime = lastSyncTime;
     }
 
+    public ESyncStatus getLastSyncStatus() {
+        return lastSyncStatus;
+    }
+
+    public void setLastSyncStatus(ESyncStatus lastSyncStatus) {
+        this.lastSyncStatus = lastSyncStatus;
+    }
 }
