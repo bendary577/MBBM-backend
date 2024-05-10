@@ -1,9 +1,9 @@
-package com.mbbm.app.http.request;
+package com.mbbm.app.http.request.authentication;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 
-public class UserInfoUpdateRequestDTO implements Serializable {
+public class AddNewUserRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 5926461892005193267L;
     private String name;
@@ -13,7 +13,7 @@ public class UserInfoUpdateRequestDTO implements Serializable {
     private String avatar_url;
     LinkedList<String> phoneNumbers;
 
-    public UserInfoUpdateRequestDTO(){
+    public AddNewUserRequestDTO(){
         name = "";
         username = "";
         email = "";

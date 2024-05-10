@@ -1,7 +1,7 @@
 package com.mbbm.app.service;
 
 import com.mbbm.app.enums.EContactType;
-import com.mbbm.app.http.request.NewUserRequestDTO;
+import com.mbbm.app.http.request.authentication.UserRegistrationRequestDTO;
 import com.mbbm.app.model.base.Contact;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.repository.ContactRepository;
@@ -21,7 +21,7 @@ public class ContactService {
         return contact.orElse(null);
     }
 
-    public Contact buildNewContactObject(NewUserRequestDTO newUserRequestDTO, User user) {
+    public Contact buildNewContactObject(UserRegistrationRequestDTO newUserRequestDTO, User user) {
        Contact contact = new Contact();
        contact.setType(EContactType.valueOf(newUserRequestDTO.getContactType()));
        contact.setCode(newUserRequestDTO.getCountryCode());

@@ -8,7 +8,8 @@ import static java.util.stream.Collectors.toMap;
 public enum ESyncStatus {
 
     FAIL(0),
-    SUCCESS(1);
+    SUCCESS(1),
+    NOT_SYNCED(2);
 
 
     public final int value;

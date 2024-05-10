@@ -1,11 +1,11 @@
 package com.mbbm.app.enums;
 
 import java.util.Map;
-
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toMap;
 
 public enum ERole {
+    ROLE_SUPER_ADMIN(0),
     ROLE_ADMIN(1),
     ROLE_MODERATOR(2),
     ROLE_MEDIA_BUYER(3);
@@ -21,6 +21,8 @@ public enum ERole {
 
     public static ERole getRoleByName(String userRoleName){
         switch(userRoleName){
+            case "SuperAdmin":
+                return ROLE_SUPER_ADMIN;
             case "Admin":
                 return ROLE_ADMIN;
             case "Moderator":

@@ -1,4 +1,4 @@
-package com.mbbm.app.http.request;
+package com.mbbm.app.http.request.userProfile;
 
 import java.io.Serializable;
 

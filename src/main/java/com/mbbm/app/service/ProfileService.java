@@ -3,8 +3,8 @@ package com.mbbm.app.service;
 import com.mbbm.app.controller.profile.ProfileController;
 import com.mbbm.app.enums.EBlobType;
 import com.mbbm.app.enums.ERole;
-import com.mbbm.app.http.request.ProfileAvatarUpdateRequestDTO;
-import com.mbbm.app.http.request.NewUserRequestDTO;
+import com.mbbm.app.http.request.userProfile.ProfileAvatarUpdateRequestDTO;
+import com.mbbm.app.http.request.authentication.UserRegistrationRequestDTO;
 import com.mbbm.app.model.base.BlobEntity;
 import com.mbbm.app.model.base.Profile;
 import com.mbbm.app.model.base.User;
@@ -36,7 +36,7 @@ public class ProfileService {
         return profile.orElse(null);
     }
 
-    public Profile buildNewProfileObject(NewUserRequestDTO newUserRequestDTO, User user) {
+    public Profile buildNewProfileObject(UserRegistrationRequestDTO newUserRequestDTO, User user) {
         Profile profile = new Profile();
         profile.setType(ERole.valueOf(newUserRequestDTO.getUserType()));
         profile.setTimestamp(new Date().toString());
@@ -110,5 +110,11 @@ public class ProfileService {
 //        logger.info("ProfileService:unBlockProfile::profile with id = %s was not found" + profileId);
 //        return false;
 //    }
-
+    public Profile getUserProfile(User user){
+       Optional<Profile> profileOptional =  this.profileRepository.findByUser(user);
+       if(profileOptional.isPresent()){
+           return profileOptional.get();
+       }
+       return null;
+    }
 }

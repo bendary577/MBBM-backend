@@ -1,16 +1,13 @@
 package com.mbbm.app.controller.users;
 
 import com.mbbm.app.controller.authentication.AuthenticationController;
-import com.mbbm.app.http.request.AddNewUserRequestDTO;
-import com.mbbm.app.http.request.NewUserRequestDTO;
-import com.mbbm.app.http.request.UserInfoUpdateRequestDTO;
+import com.mbbm.app.http.request.authentication.UserRegistrationRequestDTO;
 import com.mbbm.app.http.response.PageableResponse;
 import com.mbbm.app.http.response.constants.ResponseMessages;
 import com.mbbm.app.http.response.messages.ResponseMessage;
-import com.mbbm.app.http.response.messages.ResponseMessageWithList;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.record.UserDTO;
-import com.mbbm.app.service.SignupService;
+import com.mbbm.app.service.authentication.UserRegistrationService;
 import com.mbbm.app.service.UserService;
 import com.mbbm.app.util.validation.NewUserValidator;
 import com.mbbm.app.util.validation.PasswordValidator;
@@ -33,7 +30,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private SignupService signupService;
+    private UserRegistrationService userRegistrationService;
 
     private Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
@@ -76,13 +73,13 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@RequestBody NewUserRequestDTO newUserRequestDTO) {
+    public ResponseEntity<?> save(@RequestBody UserRegistrationRequestDTO newUserRequestDTO) {
         ResponseMessage responseMessage = new ResponseMessage();
         boolean isFailedRequest = false;
         try {
 
             //validate basic user information
-            NewUserValidator newUserValidator = new NewUserValidator(this.signupService);
+            NewUserValidator newUserValidator = new NewUserValidator(this.userRegistrationService);
             ValidationResult validationResult = newUserValidator.validate(newUserRequestDTO);
             responseMessage.setMessage(validationResult.getMessage());
             isFailedRequest = validationResult.isFailedRequest();
@@ -98,8 +95,8 @@ public class UserController {
             }
 
             //create user object and save in db
-            User newUser = signupService.createNewUser(newUserRequestDTO);
-            JSONObject signupResponse = signupService.buildSignupResponse(newUser);
+            User newUser = userRegistrationService.createNewUser(newUserRequestDTO);
+            JSONObject signupResponse = userRegistrationService.buildSignupResponse(newUser);
 
             logger.info("successful signup request for user = " + newUserRequestDTO.getUsername());
             return new ResponseEntity<>(signupResponse.toJSONString(), HttpStatus.OK);

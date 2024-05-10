@@ -1,9 +1,8 @@
 package com.mbbm.app.util.validation;
 
-import com.mbbm.app.http.request.NewUserRequestDTO;
+import com.mbbm.app.http.request.authentication.UserRegistrationRequestDTO;
 import com.mbbm.app.http.response.constants.ResponseMessages;
-import com.mbbm.app.service.SignupService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mbbm.app.service.authentication.UserRegistrationService;
 
 /**
  * @author mohamed.bendary
@@ -11,13 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class NewUserValidator{
 
-    private SignupService signupService;
+    private UserRegistrationService userRegistrationService;
 
-    public NewUserValidator (SignupService signupService) {
-        this.signupService = signupService;
+    public NewUserValidator (UserRegistrationService userRegistrationService) {
+        this.userRegistrationService = userRegistrationService;
     }
 
-    public ValidationResult validate(NewUserRequestDTO newUserRequestDTO) {
+    public ValidationResult validate(UserRegistrationRequestDTO newUserRequestDTO) {
 
         ValidationResult validationResult = new ValidationResult();
 
@@ -31,12 +30,12 @@ public class NewUserValidator{
             validationResult.isFailedRequest = true;
         }
 
-        if(signupService.checkUsernameAlreadyExists(newUserRequestDTO.getUsername())) {
+        if(userRegistrationService.checkUsernameAlreadyExists(newUserRequestDTO.getUsername())) {
             validationResult.setMessage(ResponseMessages.USERNAME_EXISTS);
             validationResult.isFailedRequest = true;
         }
 
-        if(signupService.checkEmailAlreadyExists(newUserRequestDTO.getEmail())){
+        if(userRegistrationService.checkEmailAlreadyExists(newUserRequestDTO.getEmail())){
             validationResult.setMessage(ResponseMessages.EMAIL_EXISTS);
             validationResult.isFailedRequest = true;
 

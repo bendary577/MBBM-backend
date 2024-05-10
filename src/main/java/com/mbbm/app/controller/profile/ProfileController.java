@@ -1,6 +1,6 @@
 package com.mbbm.app.controller.profile;
 
-import com.mbbm.app.http.request.ProfileAvatarUpdateRequestDTO;
+import com.mbbm.app.http.request.userProfile.ProfileAvatarUpdateRequestDTO;
 import com.mbbm.app.http.response.messages.ResponseMessage;
 import com.mbbm.app.http.response.constants.ResponseMessages;
 import com.mbbm.app.model.base.Profile;

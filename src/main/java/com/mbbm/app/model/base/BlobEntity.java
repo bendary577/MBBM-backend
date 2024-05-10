@@ -1,7 +1,6 @@
 package com.mbbm.app.model.base;
 
 import com.mbbm.app.enums.EBlobType;
-
 import javax.persistence.*;
 
 
@@ -19,8 +18,8 @@ public class BlobEntity {
 	@Column(name = "name")
 	private String name;
 
-    @Column(name = "url")
-    private String url;
+    @Column(name = "path")
+    private String path;
 
 	@Column(name = "type")
 	private EBlobType type;
@@ -49,14 +48,6 @@ public class BlobEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	public EBlobType getType() {
@@ -89,5 +80,13 @@ public class BlobEntity {
 
 	public void setProfile(Profile profile) {
 		this.profile = profile;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 }

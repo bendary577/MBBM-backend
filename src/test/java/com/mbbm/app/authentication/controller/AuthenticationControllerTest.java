@@ -1,8 +1,8 @@
 package com.mbbm.app.authentication.controller;
 
 import com.mbbm.app.controller.authentication.AuthenticationController;
-import com.mbbm.app.service.LoginService;
-import com.mbbm.app.service.SignupService;
+import com.mbbm.app.service.authentication.LoginService;
+import com.mbbm.app.service.authentication.UserRegistrationService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,7 +30,7 @@ public class AuthenticationControllerTest {
     private LoginService loginService;
 
     @MockBean
-    private SignupService signupService;
+    private UserRegistrationService userRegistrationService;
 
 
     @Test

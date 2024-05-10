@@ -15,5 +15,10 @@ public class BlobEntityService {
         blobEntityRepository.save(blobEntity);
     }
 
+    public void createBlobEntity(){
+        BlobEntity blobEntity = new BlobEntity();
+        save(blobEntity);
+    }
+
 
 }

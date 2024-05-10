@@ -25,7 +25,7 @@
         <mxCell id="hHyO7nc6i2UHlN27BJFy-18" value="-&amp;nbsp;LoginService:&amp;nbsp;LoginService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="hHyO7nc6i2UHlN27BJFy-1" vertex="1">
           <mxGeometry y="78" width="350" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="hHyO7nc6i2UHlN27BJFy-19" value="- signupService:&amp;nbsp;SignupService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="hHyO7nc6i2UHlN27BJFy-1" vertex="1">
+        <mxCell id="hHyO7nc6i2UHlN27BJFy-19" value="- userRegistrationService:&amp;nbsp;SignupService" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="hHyO7nc6i2UHlN27BJFy-1" vertex="1">
           <mxGeometry y="104" width="350" height="26" as="geometry" />
         </mxCell>
         <mxCell id="hHyO7nc6i2UHlN27BJFy-3" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="hHyO7nc6i2UHlN27BJFy-1" vertex="1">

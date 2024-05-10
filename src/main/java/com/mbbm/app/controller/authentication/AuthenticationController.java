@@ -5,14 +5,13 @@ import com.mbbm.app.events.publisher.UserRegisteredEventPublisher;
 import com.mbbm.app.http.response.messages.ResponseMessage;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.security.userDetails.UserDetailsImpl;
-import com.mbbm.app.http.request.LoginRequestDTO;
-import com.mbbm.app.http.request.NewUserRequestDTO;
+import com.mbbm.app.http.request.authentication.LoginRequestDTO;
+import com.mbbm.app.http.request.authentication.UserRegistrationRequestDTO;
 import com.mbbm.app.http.response.constants.ResponseMessages;
-import com.mbbm.app.service.LoginService;
-import com.mbbm.app.service.SignupService;
+import com.mbbm.app.service.authentication.LoginService;
+import com.mbbm.app.service.authentication.UserRegistrationService;
 import com.mbbm.app.util.validation.NewUserValidator;
 import com.mbbm.app.util.validation.PasswordValidator;
-import com.mbbm.app.util.validation.ValidationMessages;
 import com.mbbm.app.util.validation.ValidationResult;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -36,15 +35,15 @@ public class AuthenticationController {
 
     private final LoginService loginService;
 
-    private final SignupService signupService;
+    private final UserRegistrationService userRegistrationService;
 
     private UserRegisteredEventPublisher userRegisteredEventPublisher;
 
     public AuthenticationController(
-            SignupService signupService,
+            UserRegistrationService userRegistrationService,
             LoginService loginService,
             UserRegisteredEventPublisher userRegisteredEventPublisher){
-        this.signupService = signupService;
+        this.userRegistrationService = userRegistrationService;
         this.loginService = loginService;
         this.userRegisteredEventPublisher = userRegisteredEventPublisher;
     }
@@ -89,7 +88,7 @@ public class AuthenticationController {
      * @return
      */
     @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes="application/json", produces = "application/json")
-    public ResponseEntity<?> signup(@RequestBody NewUserRequestDTO newUserRequestDTO){
+    public ResponseEntity<?> signup(@RequestBody UserRegistrationRequestDTO newUserRequestDTO){
         logger.info("Starting signup request for user = " + newUserRequestDTO.getUsername());
 
         ResponseMessage responseMessage = new ResponseMessage();
@@ -97,7 +96,7 @@ public class AuthenticationController {
         try {
 
             //validate basic user information
-            NewUserValidator newUserValidator = new NewUserValidator(this.signupService);
+            NewUserValidator newUserValidator = new NewUserValidator(this.userRegistrationService);
             ValidationResult validationResult = newUserValidator.validate(newUserRequestDTO);
             responseMessage.setMessage(validationResult.getMessage());
             isFailedRequest = validationResult.isFailedRequest();
@@ -113,8 +112,8 @@ public class AuthenticationController {
             }
 
             //create user object and save in db
-            User newUser = signupService.createNewUser(newUserRequestDTO);
-            JSONObject signupResponse = signupService.buildSignupResponse(newUser);
+            User newUser = userRegistrationService.createNewUser(newUserRequestDTO);
+            JSONObject signupResponse = userRegistrationService.buildSignupResponse(newUser);
 
             logger.info("successful signup request for user = " + newUserRequestDTO.getUsername());
 

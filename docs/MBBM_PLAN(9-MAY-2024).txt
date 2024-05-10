@@ -1,0 +1,18 @@
+1 - Launch the Youcan module
+    1.1 - deliverables :
+        1.1.1 - auth module
+        1.1.2 - youcan module
+        1.2.3 - payment module
+    1.2 - what needs to be finished first :
+        1.2.1 - unit testing
+        1.2.2 - code comments
+        1.2.3 - swagger api
+        1.2.4 - java docs comments
+        1.2.5 - logging
+        1.2.6 - security and validation (code level)
+        1.2.7 - dockernizing the app
+    1.3 - launching plan :
+        1.3.1 - create new branch for version 1.1 (youcan module)
+        1.3.2 - local smoke test for the created branch version
+        1.3.3 - host the generated docker file (including all jars, packages) on shared hosting with mysql db
+

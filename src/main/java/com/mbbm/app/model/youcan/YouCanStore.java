@@ -1,5 +1,6 @@
 package com.mbbm.app.model.youcan;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mbbm.app.model.base.Profile;
 
 import javax.persistence.*;

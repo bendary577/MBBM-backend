@@ -3,13 +3,11 @@ package com.mbbm.app.model.base;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mbbm.app.enums.ERole;
 import com.mbbm.app.model.youcan.YoucanIntegration;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
-
 
 /**
  * @author mohamed.bendary
@@ -30,10 +28,14 @@ public class Profile implements Serializable {
 
 	/***
 	 * used for external integration
+	 * TODO : CHECK THIS
 	 */
 	@Column(name = "identifier")
 	private UUID identifier;
 
+	/**
+	 * TODO : CHECK THIS
+	 */
 	@Column(name = "type")
 	private ERole type;
 
@@ -70,6 +72,10 @@ public class Profile implements Serializable {
 	@JsonIgnore
 	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private YoucanIntegration youcanIntegration;
+
+	@ManyToOne
+	@JoinColumn(name = "subscription_id")
+	private Subscription subscription;
 
 	public Long getId() {
 		return id;
@@ -174,5 +180,13 @@ public class Profile implements Serializable {
 
 	public void setIdentifier(UUID identifier) {
 		this.identifier = identifier;
+	}
+
+	public Subscription getSubscription() {
+		return subscription;
+	}
+
+	public void setSubscription(Subscription subscription) {
+		this.subscription = subscription;
 	}
 }

@@ -1,6 +1,6 @@
 package com.mbbm.app.service;
 
-import com.mbbm.app.http.request.NewUserRequestDTO;
+import com.mbbm.app.http.request.authentication.UserRegistrationRequestDTO;
 import com.mbbm.app.model.base.Address;
 import com.mbbm.app.model.base.User;
 import com.mbbm.app.repository.AddressRepository;
@@ -20,7 +20,7 @@ public class AddressService {
         return address.orElse(null);
     }
 
-    public Address buildNewAddressObject(NewUserRequestDTO newUserRequestDTO, User user) {
+    public Address buildNewAddressObject(UserRegistrationRequestDTO newUserRequestDTO, User user) {
         Address address = new Address();
         address.setCountry(newUserRequestDTO.getCountry());
         address.setState(newUserRequestDTO.getState());

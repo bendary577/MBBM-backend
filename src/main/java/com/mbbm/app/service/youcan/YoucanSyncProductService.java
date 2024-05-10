@@ -1,4 +1,4 @@
-package com.mbbm.app.youcan.service;
+package com.mbbm.app.service.youcan;
 
 import com.google.gson.Gson;
 import com.mbbm.app.controller.authentication.AuthenticationController;
@@ -69,7 +69,7 @@ public class YoucanSyncProductService {
                 productsList.addAll(youcanProductsResponseDTO.getData());
                 totalProductsPagesCount = youcanProductsResponseDTO.getMeta().getPagination().getTotal_pages();
                 currentPageCount = youcanProductsResponseDTO.getMeta().getPagination().getCurrent_page();
-                //------------------- get all list of products
+                //get all list of products
                 do{
                     currentPageCount += 1;
                     List<YoucanProductDTO> fetchedProductsList = getProductsPage(currentPageCount, token);
@@ -112,9 +112,7 @@ public class YoucanSyncProductService {
     }
 
     public void updateAllProducts(String token, YoucanConfiguration youcanConfiguration, List<YoucanProductDTO> productDTOList) {
-
         try {
-
             for (YoucanProductDTO youcanProductDTO : productDTOList) {
 
                 HashMap<String, Object> updatedData = new HashMap<>();

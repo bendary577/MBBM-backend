@@ -1,7 +1,7 @@
 package com.mbbm.app.authentication.service;
 
 import com.mbbm.app.security.userDetails.UserDetailsServiceImpl;
-import com.mbbm.app.service.LoginService;
+import com.mbbm.app.service.authentication.LoginService;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;

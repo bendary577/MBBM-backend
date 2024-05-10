@@ -1,7 +1,7 @@
 package com.mbbm.app.service;
 
 import com.mbbm.app.enums.EGender;
-import com.mbbm.app.http.request.NewUserRequestDTO;
+import com.mbbm.app.http.request.authentication.UserRegistrationRequestDTO;
 import com.mbbm.app.http.response.PageableResponse;
 import com.mbbm.app.http.response.constants.ResponseMessages;
 import com.mbbm.app.mapper.UserMapper;
@@ -36,6 +36,7 @@ public class UserService {
 
     private UserMapper userMapper;
 
+
     public UserService(){
         userMapper = Mappers.getMapper(UserMapper.class);
     }
@@ -57,17 +58,22 @@ public class UserService {
                 );
     }
 
-    public User getAllUsersByEmail(String email) {
+    public Optional<User> getAllUsersByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public User getAllUsersByUsername(String username) {
+    public Optional<User> getAllUsersByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     public User getUserById(String userId) {
 
         Optional<User> user = userRepository.findById(Long.parseLong(userId));
+        return user.orElse(null);
+    }
+
+    public User getUserByUserName(String userName) {
+        Optional<User> user = userRepository.findByUsername(userName);
         return user.orElse(null);
     }
 
@@ -79,7 +85,7 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public User buildNewUserObject(@NotNull NewUserRequestDTO newUserRequestDTO, Set<Role> roles){
+    public User buildNewUserObject(@NotNull UserRegistrationRequestDTO newUserRequestDTO, Set<Role> roles){
         User user = new User();
         user.setFirstName(newUserRequestDTO.getFirstName());
         user.setLastName(newUserRequestDTO.getLastName());
@@ -116,6 +122,5 @@ public class UserService {
         userInfoResponse.put("data", userInfo);
         return userInfoResponse;
     }
-
 
 }

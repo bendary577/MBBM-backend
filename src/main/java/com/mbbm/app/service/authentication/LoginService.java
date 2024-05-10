@@ -1,4 +1,4 @@
-package com.mbbm.app.service;
+package com.mbbm.app.service.authentication;
 
 import com.mbbm.app.http.response.constants.ResponseMessages;
 import com.mbbm.app.security.jwt.JwtTokenUtil;

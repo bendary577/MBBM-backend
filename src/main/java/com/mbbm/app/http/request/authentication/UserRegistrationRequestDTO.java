@@ -1,8 +1,8 @@
-package com.mbbm.app.http.request;
+package com.mbbm.app.http.request.authentication;
 
 import java.io.Serializable;
 
-public class NewUserRequestDTO implements Serializable {
+public class UserRegistrationRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;
 
@@ -29,7 +29,7 @@ public class NewUserRequestDTO implements Serializable {
     private String countryCode;
 
     //need default constructor for JSON Parsing
-    public NewUserRequestDTO() {}
+    public UserRegistrationRequestDTO() {}
 
     public String getFirstName() {
         return firstName;
