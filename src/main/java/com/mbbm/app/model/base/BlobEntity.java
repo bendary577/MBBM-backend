@@ -1,5 +1,6 @@
 package com.mbbm.app.model.base;
 
+import com.mbbm.app.enums.EBlobFileExtention;
 import com.mbbm.app.enums.EBlobType;
 import javax.persistence.*;
 
@@ -21,6 +22,9 @@ public class BlobEntity {
     @Column(name = "path")
     private String path;
 
+	@Column(name = "extension")
+	private EBlobFileExtention extension;
+
 	@Column(name = "type")
 	private EBlobType type;
 
@@ -30,7 +34,7 @@ public class BlobEntity {
 	@Column(name = "timestamp")
 	private String timestamp;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "profile_id")
 	private Profile profile;
 

@@ -1,27 +1,40 @@
 package com.mbbm.app.dto.youcan;
 
+import com.mbbm.app.dto.blobs.BlobEntityDTO;
+import com.mbbm.app.enums.EBlobFileExtention;
 import com.mbbm.app.enums.EBlobType;
+import com.mbbm.app.model.base.Profile;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class YoucanProductUpdateFileDataDTO {
+public class YoucanProductUpdateFileDataDTO extends BlobEntityDTO {
 
     private List<String> fileHeaders;
     private List<YoucanProductUpdateDTO> youcanProductUpdateDTOList;
-    private EBlobType fileType;
-    private String fileName;
 
-    public YoucanProductUpdateFileDataDTO(){
+
+    public YoucanProductUpdateFileDataDTO(EBlobType blobType, EBlobFileExtention extension, Profile profile){
+        super(blobType, extension, profile);
+        //initialize product update actions list
+        youcanProductUpdateDTOList = new LinkedList<>();
         //instantiate file headers list
-        fileHeaders = new LinkedList<>();
-        fileHeaders.add("Product Code");
-        fileHeaders.add("Product English Name");
-        fileHeaders.add("Is Visibility Updated");
-        fileHeaders.add("Is Price Updated");
-        fileHeaders.add("Price Value Before");
-        fileHeaders.add("Price Value After");
-        fileHeaders.add("Update Time Stamp");
+        this.fileHeaders = new LinkedList<>();
+        this.fileHeaders.add("Product Code");
+        this.fileHeaders.add("Product English Name");
+        this.fileHeaders.add("Is Visibility Updated");
+        this.fileHeaders.add("Is Price Updated");
+        this.fileHeaders.add("Price Value Before");
+        this.fileHeaders.add("Price Value After");
+        this.fileHeaders.add("Update Time Stamp");
+    }
+
+    public List<String> getFileHeaders() {
+        return fileHeaders;
+    }
+
+    public void setFileHeaders(List<String> fileHeaders) {
+        this.fileHeaders = fileHeaders;
     }
 
     public List<YoucanProductUpdateDTO> getYoucanProductUpdateDTOList() {
@@ -32,28 +45,5 @@ public class YoucanProductUpdateFileDataDTO {
         this.youcanProductUpdateDTOList = youcanProductUpdateDTOList;
     }
 
-    public EBlobType getFileType() {
-        return fileType;
-    }
-
-    public void setFileType(EBlobType fileType) {
-        this.fileType = fileType;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public List<String> getFileHeaders() {
-        return fileHeaders;
-    }
-
-    public void setFileHeaders(List<String> fileHeaders) {
-        this.fileHeaders = fileHeaders;
-    }
 }
 

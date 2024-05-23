@@ -5,15 +5,8 @@ import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toMap;
 
 public enum EBlobType {
-    TXT(0),
-    PDF(1),
-    JPG(2),
-    PNG(3),
-    XLSX(4),
-    DOCX(5),
-    MP4(6),
-    MP3(7),
-    CSV(8);
+    AVATAR(0),
+    YOUCAN_PRODUCT_UPDATE_TRACKING_FILE(1);
 
     public final int value;
 

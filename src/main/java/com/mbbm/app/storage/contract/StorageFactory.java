@@ -1,4 +1,4 @@
-package com.mbbm.app.util.storage.contract;
+package com.mbbm.app.storage.contract;
 
 public interface StorageFactory {
 

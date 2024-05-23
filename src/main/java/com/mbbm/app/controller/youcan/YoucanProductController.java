@@ -58,6 +58,23 @@ public class YoucanProductController {
         return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
 
+    @GetMapping("/getAllUnAvailableProducts")
+    public ResponseEntity<ResponseMessage> getAllUnAvailableProducts() {
+        ResponseMessage responseMessage = new ResponseMessage();
+        try{
+            List<YoucanProductDTO> youcanProductDTOList = youcanService.getInventoryUnavailableProducts();
+            if(youcanProductDTOList.isEmpty()){
+                throw new YoucanGetProductsException("we encountered an error while trying to get unavailable youcan store products");
+            }
+            responseMessage.setMessage("unavailable youcan store products returned successfully");
+            responseMessage.setData(youcanProductDTOList);
+        }catch (Exception exception){
+            responseMessage.setMessage(exception.getMessage());
+            return new ResponseEntity<>(responseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(responseMessage, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/updateProduct/{productId}", method = RequestMethod.POST, consumes="application/json")
     public ResponseEntity<ResponseMessage> updateProduct(@PathVariable String productId,
                                                          @RequestBody String youcanProductUpdateRequestJson) throws JsonProcessingException {
@@ -79,17 +96,17 @@ public class YoucanProductController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/updateAllProducts", method = RequestMethod.GET, consumes="application/json")
+    @RequestMapping(value = "/updateAllProducts", method = RequestMethod.PUT, consumes="application/json")
     public ResponseEntity<ResponseMessage> updateAllProducts(@RequestBody YoucanMassProductUpdateRequestDTO youcanMassProductUpdateRequestDTO) {
         ResponseMessage response = new ResponseMessage();
         try{
             youcanService.updateAllProducts(youcanMassProductUpdateRequestDTO);
             response.setMessage("youcan product was updated successfully");
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }catch(Exception exception){
             response.setMessage(exception.getMessage());
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/downloadProductsUpdateFile")
@@ -102,10 +119,10 @@ public class YoucanProductController {
             }
             responseMessage.setMessage("youcan store products returned successfully");
             responseMessage.setData(youcanProductDTOList);
+            return new ResponseEntity<>(responseMessage, HttpStatus.OK);
         }catch (Exception exception){
             responseMessage.setMessage(exception.getMessage());
             return new ResponseEntity<>(responseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(responseMessage, HttpStatus.OK);
     }
 }

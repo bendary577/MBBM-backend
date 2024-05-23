@@ -1,13 +1,17 @@
 package com.mbbm.app.service.youcan;
 
 import com.google.gson.Gson;
+import com.mbbm.app.config.MBBMAppConfiguration;
 import com.mbbm.app.dto.youcan.YoucanProductUpdateDTO;
 import com.mbbm.app.dto.youcan.YoucanProductUpdateFileDataDTO;
+import com.mbbm.app.enums.EBlobFileExtention;
+import com.mbbm.app.enums.EBlobType;
 import com.mbbm.app.exception.youcan.YoucanGetProductsException;
 import com.mbbm.app.exception.youcan.YoucanUpdateProductException;
 import com.mbbm.app.http.request.youcan.YoucanMassProductUpdateRequestDTO;
-import com.mbbm.app.repository.YoucanIntegrationRepository;
+import com.mbbm.app.model.base.Profile;
 import com.mbbm.app.repository.YoucanStoreRepository;
+import com.mbbm.app.service.BlobEntityService;
 import com.mbbm.app.service.authentication.AuthenticationService;
 import com.mbbm.app.service.ProfileService;
 import com.mbbm.app.util.compression.CompressionUtility;
@@ -17,13 +21,15 @@ import com.mbbm.app.youcan.dto.YoucanProductUpdateRequestDTO;
 import com.mbbm.app.youcan.dto.products.YoucanProductDTO;
 import com.mbbm.app.youcan.dto.products.YoucanProductsResponseDTO;
 import okhttp3.*;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
+import java.nio.file.FileSystems;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /***
  * @author mohamed.bendary
@@ -34,10 +40,6 @@ public class YoucanProductService {
 
     @Autowired
     private ProfileService profileService;
-
-    //TODO : repository should be accessible only in it's own service
-    @Autowired
-    private YoucanIntegrationRepository youcanIntegrationRepository;
 
     @Autowired
     private YoucanIntegrationService youcanIntegrationService;
@@ -56,6 +58,12 @@ public class YoucanProductService {
 
     @Autowired
     private StorageService storageService;
+
+    @Autowired
+    private BlobEntityService blobEntityService;
+
+    @Autowired
+    private MBBMAppConfiguration applicationConfiguration;
 
     private final Logger logger = LoggerFactory.getLogger(YoucanProductService.class);
 
@@ -76,7 +84,7 @@ public class YoucanProductService {
         OkHttpClient client = new OkHttpClient();
         Response response = client.newCall(request).execute();
 
-        if (response.isSuccessful()) {
+        if (response.isSuccessful() && response.body() != null) {
             int totalProductsPagesCount;
             int currentPageCount;
             Gson gson = new Gson();
@@ -97,6 +105,13 @@ public class YoucanProductService {
             throw new YoucanGetProductsException("we encountered an error fetching youcan products");
         }
         return productsList;
+    }
+
+    public List<YoucanProductDTO> getInventoryUnavailableProducts() throws Exception {
+        List<YoucanProductDTO> productsList = getAllProducts();
+        return productsList.stream()
+                .filter( youcanProductDTO -> youcanProductDTO.getInventory() == 0)
+                .collect(Collectors.toList());
     }
 
     public YoucanProductsResponseDTO getProductsPerPage(int pageCount) throws Exception {
@@ -207,11 +222,7 @@ public class YoucanProductService {
      * @return
      * @throws Exception
      */
-    public void updateAllProducts(YoucanMassProductUpdateRequestDTO youcanMassProductUpdateRequestDTO) throws Exception {
-
-        String youcanToken = youcanIntegrationService.getUserProfileYoucanIntegration().getToken();
-        //get all products
-        List<YoucanProductDTO> youcanProductDTOList = getAllProducts();
+    public YoucanProductUpdateFileDataDTO updateProducts(YoucanMassProductUpdateRequestDTO youcanMassProductUpdateRequestDTO, List<YoucanProductDTO> youcanProductDTOList) throws Exception {
 
         //prepare value updates hashmap
         HashMap<String, Object> productUpdatesValueMap = new HashMap<>();
@@ -220,29 +231,26 @@ public class YoucanProductService {
         }
 
         if(youcanMassProductUpdateRequestDTO.isUpdatePrice()){//update price
-            productUpdatesValueMap.put("price", youcanMassProductUpdateRequestDTO.getProductPriceUpdateRate());
+            productUpdatesValueMap.put("price", youcanMassProductUpdateRequestDTO.getProductPriceUpdatePercentage());
         }
 
         //prepare product update data tracker to write the data in Excel sheet
-        YoucanProductUpdateFileDataDTO youcanProductUpdateFileDataDTO = new YoucanProductUpdateFileDataDTO();
+        //TODO : refactor this path constructing code
+        Profile profile = authenticationService.getCurrentAuthenticatedUserProfile();
+        String separator = FileSystems.getDefault().getSeparator();
+        YoucanProductUpdateFileDataDTO youcanProductUpdateFileDataDTO = new YoucanProductUpdateFileDataDTO(EBlobType.YOUCAN_PRODUCT_UPDATE_TRACKING_FILE, EBlobFileExtention.XLSX, profile);
+        youcanProductUpdateFileDataDTO.setFileName("YoucanProductsUpdate_"+System.currentTimeMillis());
+        youcanProductUpdateFileDataDTO.setFilePath(this.applicationConfiguration.getBaseStoragePath() + separator + profile.getCode() + separator + "youcan");
 
         for(YoucanProductDTO youcanProductDTO : youcanProductDTOList){
             //update the product info
-            updateProduct(youcanProductDTO, productUpdatesValueMap);
+//            updateProduct(youcanProductDTO, productUpdatesValueMap);
 
             //record the update happened to this product to be added to Excel sheet
             YoucanProductUpdateDTO youcanProductUpdateDTO = createUpdateTrackingRecordForProduct(youcanProductDTO, youcanMassProductUpdateRequestDTO);
             youcanProductUpdateFileDataDTO.getYoucanProductUpdateDTOList().add(youcanProductUpdateDTO);
         }
-
-        //now, all products are supposed to be updated ... and we have tracked all updated data
-        //we need to generate Excel sheet with all updates and save it as a blob file
-        HashMap<Long, LinkedList<String>> productsUpdateFileDate = buildYoucanProductUpdateFileData(youcanProductUpdateFileDataDTO);
-        Workbook workbook = excelFileHandler.generateExcelWorkbook(productsUpdateFileDate, "youcanProductsUpdate_"+String.valueOf(new Date()));
-        //save the workbook in the storage
-        //TODO : NEEDS TO BE CHECKED (FILE PATH, FILE NAME)
-        this.storageService.saveBlob(excelFileHandler.generateExcelFileByteArray(workbook), youcanProductUpdateFileDataDTO.getFileName());
-        //create blob with all file details in the DB
+        return youcanProductUpdateFileDataDTO;
     }
 
     /**
@@ -265,8 +273,14 @@ public class YoucanProductService {
         }else{
             youcanProductUpdateDTO.setIsPriceUpdated("false");
         }
+        double newPrice = 0;
         youcanProductUpdateDTO.setPriceValueBefore(String.valueOf(youcanProductDTO.getPrice()));
-        youcanProductUpdateDTO.setPriceValueAfter(String.valueOf(youcanProductDTO.getPrice() + (youcanProductDTO.getPrice() * youcanMassProductUpdateRequestDTO.getProductPriceUpdateRate()/100)));
+        if(youcanMassProductUpdateRequestDTO.isPricePercentIncrease()){
+            newPrice = youcanProductDTO.getPrice() + ((double) (youcanProductDTO.getPrice() * youcanMassProductUpdateRequestDTO.getProductPriceUpdatePercentage()) /100);
+        }else{
+            newPrice = youcanProductDTO.getPrice() - ((double) (youcanProductDTO.getPrice() * youcanMassProductUpdateRequestDTO.getProductPriceUpdatePercentage()) /100);
+        }
+        youcanProductUpdateDTO.setPriceValueAfter(String.valueOf(newPrice));
         youcanProductUpdateDTO.setUpdateTimestamp(String.valueOf(new Date()));
         return youcanProductUpdateDTO;
     }
@@ -284,7 +298,7 @@ public class YoucanProductService {
         dataHashMap.put(0L, headers);
 
         //add data values
-        long dataCount = 0;
+        long dataCount = 1L;
         for(YoucanProductUpdateDTO youcanProductUpdateDTO : youcanProductUpdateFileDataDTO.getYoucanProductUpdateDTOList()){
             LinkedList<String> dataValues = new LinkedList<>();
             dataValues.add(youcanProductUpdateDTO.getProductCode());
@@ -292,10 +306,40 @@ public class YoucanProductService {
             dataValues.add(youcanProductUpdateDTO.getIsVisibilityUpdated());
             dataValues.add(youcanProductUpdateDTO.getIsPriceUpdated());
             dataValues.add(youcanProductUpdateDTO.getPriceValueBefore());
-            dataValues.add(youcanProductUpdateDTO.getPriceValueBefore());
+            dataValues.add(youcanProductUpdateDTO.getPriceValueAfter());
             dataValues.add(youcanProductUpdateDTO.getUpdateTimestamp());
             dataHashMap.put(dataCount, dataValues);
+            dataCount++;
         }
         return dataHashMap;
+    }
+
+    /**
+     * perform atomic steps to update all youcan stores and return Excel sheet with all update action
+     *  1 - update all the Youcan store products
+     *  2 - create product update tracking object holding all update actions occurred on each product
+     *  3 - create Excel sheet and write all these actions to it
+     *  4 - saving this action on the user storage
+     * @param youcanMassProductUpdateRequestDTO
+     * @throws Exception
+     */
+    @Transactional
+    public void updateAllProducts(YoucanMassProductUpdateRequestDTO youcanMassProductUpdateRequestDTO) throws Exception {
+        //get all products
+        List<YoucanProductDTO> youcanProductDTOList = getAllProducts();
+        //update all these products ... and return updates tracking object
+        YoucanProductUpdateFileDataDTO youcanProductUpdateFileDataDTO = updateProducts(youcanMassProductUpdateRequestDTO, youcanProductDTOList);
+        //now, all products are supposed to be updated ... and we have tracked all updated data
+        //we need to generate Excel sheet with all updates and save it as a blob file
+        //transform the Excel workbook file into byte array
+        HashMap<Long, LinkedList<String>> productsUpdateFileDate = buildYoucanProductUpdateFileData(youcanProductUpdateFileDataDTO);
+        byte[] content = excelFileHandler.generateExcelWorkbook(productsUpdateFileDate, youcanProductUpdateFileDataDTO.getFileName());
+
+        //TODO : refactor this part for file size
+        //save the workbook in the storage
+        long fileSize = this.storageService.saveBlob(content, youcanProductUpdateFileDataDTO.getFilePath(), youcanProductUpdateFileDataDTO.getFileName());
+        youcanProductUpdateFileDataDTO.setFileSize(String.valueOf(fileSize));
+        //create blob with all file details in the DB
+        this.blobEntityService.createBlobEntity(youcanProductUpdateFileDataDTO);
     }
 }

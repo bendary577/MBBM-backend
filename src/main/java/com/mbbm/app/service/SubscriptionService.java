@@ -2,13 +2,13 @@ package com.mbbm.app.service;
 
 import com.mbbm.app.enums.EStorageType;
 import com.mbbm.app.enums.ESubscriptionType;
+import com.mbbm.app.exception.subscription.ProfileHasNoSubscriptionException;
 import com.mbbm.app.model.base.*;
 import com.mbbm.app.repository.SubscriptionRepository;
 import com.mbbm.app.service.authentication.AuthenticationService;
-import com.mbbm.app.util.storage.contract.Storage;
-import com.mbbm.app.util.storage.contract.StorageFactory;
-import com.mbbm.app.util.storage.factory.CloudStorageFactory;
-import com.mbbm.app.util.storage.factory.DiskStorageFactory;
+import com.mbbm.app.storage.contract.StorageFactory;
+import com.mbbm.app.storage.factory.CloudStorageFactory;
+import com.mbbm.app.storage.factory.DiskStorageFactory;
 import org.openqa.selenium.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,21 +44,21 @@ public class SubscriptionService {
                     case MONTHLY:
                         subscription = new Subscription();
                         subscription.setName(ESubscriptionType.MONTHLY);
-                        subscription.setPrice(20);
+                        subscription.setPrice(20D);
                         subscription.setStorageType(EStorageType.DISK);
                         save(subscription);
                         break;
                     case YEARLY:
                         subscription = new Subscription();
                         subscription.setName(ESubscriptionType.YEARLY);
-                        subscription.setPrice(100);
+                        subscription.setPrice(100D);
                         subscription.setStorageType(EStorageType.CLOUD);
                         save(subscription);
                         break;
                     case ONE_TIME_PAYMENT:
                         subscription = new Subscription();
                         subscription.setName(ESubscriptionType.ONE_TIME_PAYMENT);
-                        subscription.setPrice(10000);
+                        subscription.setPrice(10000D);
                         subscription.setStorageType(EStorageType.CLOUD);
                         save(subscription);
                         break;
@@ -78,26 +78,32 @@ public class SubscriptionService {
         }
         Subscription subscription = profile.getSubscription();
         if(subscription == null){
-            return null;
+           throw new ProfileHasNoSubscriptionException("the current profile doesn't have any subscription at all");
         }
         return subscription.getStorageType();
     }
 
     public StorageFactory getCurrentUserSubscriptionStorage(){
-        EStorageType storageType = getCurrentUserSubscriptionStorageType();
         StorageFactory storageFactory = null;
-        if(storageType != null){
-            switch(storageType){
-                case CLOUD:
-                    storageFactory = new CloudStorageFactory();
-                    break;
-                case DISK:
-                    storageFactory = new DiskStorageFactory();
-                    break;
-                default:
-                    //TODO :: handle this exception properly
-                    System.out.println("throw an exception");
+        try{
+            EStorageType storageType = getCurrentUserSubscriptionStorageType();
+            if(storageType != null){
+                switch(storageType){
+                    case CLOUD:
+                        storageFactory = new CloudStorageFactory();
+                        break;
+                    case DISK:
+                        storageFactory = new DiskStorageFactory();
+                        break;
+                    default:
+                        //TODO :: handle this exception properly
+                        System.out.println("throw an exception");
+                }
             }
+        }catch (Exception exception){
+            //TODO : rethink of the below solution .. handle this exception
+            //didn't find subscription storage for any reason
+            storageFactory = new DiskStorageFactory();
         }
         return storageFactory;
     }

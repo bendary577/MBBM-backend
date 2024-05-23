@@ -1,0 +1,52 @@
+MVP FEATURE LIST
+------------------------------------------------------------------------------------
+[YOUCAN]
+- integrate with youcan store
+- create new youcan store
+- fetch youcan store products
+- update youcan store products (price - visibility) massively
+- update youcan store product (using certain criteria)
+- automate removing unavailable products by disabling visibility
+----------------------------
+[TIKTOK]
+- integrate with tiktok
+- get basic info/insights about tiktok account
+- automate tiktok posting
+    - decide the best product to promote
+    - prepare the required creative
+    - prepare the required description/comment
+    - schedule/post directly to tiktok account
+- create a workflow plan to automate the product-post-publish process
+- create conversion campaign
+- track conversion campaign performance/insights
+----------------------------
+[CHATGPT]
+-
+----------------------------
+[SUBSCRIPTION]
+- integrate with stripe payment gateway
+- manage payments through plans (One time - Monthly - Yearly)
+- receive users payments to my bank account
+-----------------------------
+
+
+
+
+
+
+
+
+
+
+PENDING FEATURE LIST
+------------------------------------------------------------------------------------
+[ADMIN PANEL]
+- retrieve all system users
+- block/unblock system user
+- add new user
+- get system users statistics and insights - with charts
+- get system technical statistics and insights - with charts
+-----------------------------
+[TIKTOK]
+- use tiktok pixel on youcan store to collect info/insights about my products
+

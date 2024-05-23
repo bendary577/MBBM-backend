@@ -1,0 +1,26 @@
+- user has store ?
+    - user integrate with a store [youcan]
+- user don't have store ?
+    - collects some info about the user field
+    - create new youcan store
+- user integrate with a social media [tiktok]
+- user fetch youcan products
+- user update youcan required attributes
+- user get "update tracking sheet"
+- user save "update history" records
+- user adds customer preferences for social media platform
+- mbbm chatgpt-based recommendation module collects customer preferences information
+- mbbm chatgpt-based recommendation module collects social media account information
+- mbbm recommends a weekly plan
+    - number of posts needed on your social media platform
+    - which products will be promoted
+    - generates the posts text
+    - needed creatives for the plan
+    - time of posting on the social media platform
+- user approves the plan
+- mbbm automatically executes the plan
+- mbbm create a weekly performance summary for the plan
+-------------------------------------------------------
+mbbm will introduce the concept of [workflow]
+- workflow is an automated plan built from set of consecutive actions that the user can decide based on a group of
+drag and drop options. after the user creates his workflow, it will be executed automatically

@@ -26,8 +26,8 @@ public class Subscription {
 	private ESubscriptionType name;
 
 	@Column(name = "price")
-	@NotBlank(message = "price is mandatory")
-	private double price;
+//	@NotBlank(message = "price is mandatory")
+	private Double price;
 
     @Column(name = "storage_type")
     @NotNull(message = "storage type is mandatory")

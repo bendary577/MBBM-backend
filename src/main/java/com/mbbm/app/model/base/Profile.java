@@ -6,6 +6,7 @@ import com.mbbm.app.model.youcan.YoucanIntegration;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,8 +31,8 @@ public class Profile implements Serializable {
 	 * used for external integration
 	 * TODO : CHECK THIS
 	 */
-	@Column(name = "identifier")
-	private UUID identifier;
+	@Column(name = "code")
+	private String code;
 
 	/**
 	 * TODO : CHECK THIS
@@ -54,8 +55,8 @@ public class Profile implements Serializable {
 	private User user;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private BlobEntity avatar;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<BlobEntity> blobs;
 
 	/* user profile links i.e. social media accounts, personal websites, blogs ... etc. */
 	@JsonIgnore
@@ -157,15 +158,6 @@ public class Profile implements Serializable {
 		this.type = type;
 	}
 
-	public BlobEntity getAvatar() {
-		return avatar;
-	}
-
-	public void setAvatar(BlobEntity avatar) {
-		this.avatar = avatar;
-	}
-
-
 	public YoucanIntegration getYoucanIntegration() {
 		return youcanIntegration;
 	}
@@ -174,12 +166,12 @@ public class Profile implements Serializable {
 		this.youcanIntegration = youcanIntegration;
 	}
 
-	public UUID getIdentifier() {
-		return identifier;
+	public String getCode() {
+		return code;
 	}
 
-	public void setIdentifier(UUID identifier) {
-		this.identifier = identifier;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Subscription getSubscription() {
@@ -189,4 +181,14 @@ public class Profile implements Serializable {
 	public void setSubscription(Subscription subscription) {
 		this.subscription = subscription;
 	}
+
+	public Set<BlobEntity> getBlobs() {
+		return blobs;
+	}
+
+	public void setBlobs(Set<BlobEntity> blobs) {
+		this.blobs = blobs;
+	}
+
+
 }

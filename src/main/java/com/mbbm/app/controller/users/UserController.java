@@ -32,7 +32,7 @@ public class UserController {
     @Autowired
     private UserRegistrationService userRegistrationService;
 
-    private Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 
     //TODO:REVISE MULTITENANT SOLUTION

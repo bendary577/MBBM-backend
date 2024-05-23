@@ -40,7 +40,8 @@ public class ProfileService {
         Profile profile = new Profile();
         profile.setType(ERole.valueOf(newUserRequestDTO.getUserType()));
         profile.setTimestamp(new Date().toString());
-        profile.setIdentifier(UUID.randomUUID());
+        //TODO : generate random code for each profile
+        profile.setCode("v8571233fd49234asd");
         profile.setUser(user);
         profileRepository.save(profile);
         return profile;
@@ -51,22 +52,23 @@ public class ProfileService {
         Profile profile = getProfileById(profileId);
         if(profile != null){
             //get profile avatar blob entity
-            BlobEntity avatarBlobEntity = profile.getAvatar();
-            if(avatarBlobEntity != null){
-                avatarBlobEntity = profile.getAvatar();
-            }else{
-                //new avatar
-                avatarBlobEntity = new BlobEntity();
-                avatarBlobEntity.setProfile(profile);
-            }
-            //update the blob information
-            avatarBlobEntity.setType(EBlobType.valueOf(profileAvatarUpdateRequestDTO.getAvatarType()));
-            avatarBlobEntity.setUrl(profileAvatarUpdateRequestDTO.getAvatarUrl());
-            avatarBlobEntity.setName(profileAvatarUpdateRequestDTO.getAvatarName());
-            avatarBlobEntity.setSize(profileAvatarUpdateRequestDTO.getAvatarSize());
-            avatarBlobEntity.setTimestamp(new Date().toString());
-            //save
-            blobEntityService.save(avatarBlobEntity);
+            //TODO : NEEDS WORK !! THIS NEEDS TO BE REFACTORED AS WE CHANGED THE PROFILE - BLOB RELATIONSHIP
+//            BlobEntity avatarBlobEntity = profile.getAvatar();
+//            if(avatarBlobEntity != null){
+//                avatarBlobEntity = profile.getAvatar();
+//            }else{
+//                //new avatar
+//                avatarBlobEntity = new BlobEntity();
+//                avatarBlobEntity.setProfile(profile);
+//            }
+//            //update the blob information
+//            avatarBlobEntity.setType(EBlobType.valueOf(profileAvatarUpdateRequestDTO.getAvatarType()));
+//            avatarBlobEntity.setPath(profileAvatarUpdateRequestDTO.getAvatarUrl());
+//            avatarBlobEntity.setName(profileAvatarUpdateRequestDTO.getAvatarName());
+//            avatarBlobEntity.setSize(profileAvatarUpdateRequestDTO.getAvatarSize());
+//            avatarBlobEntity.setTimestamp(new Date().toString());
+//            //save
+//            blobEntityService.save(avatarBlobEntity);
             return true;
         }
         return false;
